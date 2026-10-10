@@ -1,0 +1,240 @@
+// Prisma Schema for FinSight (Prisma 6.x)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum AgeGroup {
+  TEEN_BEGINNER      // 13-15
+  TEEN_ADVANCED      // 16-18
+  YOUNG_ADULT        // 19-21
+  YOUNG_PROFESSIONAL // 22-25
+}
+
+enum BadgeRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  LEGENDARY
+}
+
+enum AssetType {
+  STOCK
+  ETF
+  MUTUAL_FUND
+  CRYPTO
+}
+
+enum TransactionSide {
+  BUY
+  SELL
+}
+
+enum NewsCategory {
+  STOCK_MARKET
+  INVESTING
+  TAXES
+  CRYPTO
+}
+
+model User {
+  id                  String     @id @default(cuid())
+  email               String     @unique
+  passwordHash        String
+  name                String
+  dob                 DateTime
+  ageGroup            AgeGroup?
+  xp                  Int        @default(0)
+  streak              Int        @default(0)
+  longestStreak       Int        @default(0)
+  lastActiveDate      String?    // YYYY-MM-DD in Asia/Kolkata timezone
+  cashBalance         Float      @default(1000000) // Virtual cash: Rs 10,00,000
+  lastPortfolioResetAt DateTime?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+
+  lessonProgress      LessonProgress[]
+  xpEvents            XpEvent[]
+  userBadges          UserBadge[]
+  holdings            Holding[]
+  transactions        Transaction[]
+  newsReads           NewsRead[]
+
+  @@index([email])
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  icon        String   // Emoji
+  color       String   // Hex string
+  order       Int
+
+  lessons     Lesson[]
+
+  @@index([order])
+}
+
+model Lesson {
+  id       String @id @default(cuid())
+  slug     String @unique
+  topicId  String
+  order    Int
+  title    String
+  content  Json
+
+  topic    Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  progress LessonProgress[]
+
+  @@index([topicId, order])
+}
+
+model LessonProgress {
+  id           String   @id @default(cuid())
+  userId       String
+  lessonId     String
+  completedAt  DateTime @default(now())
+  xpEarned     Int      @default(0)
+  quizAttempts Int      @default(1)
+  hintsUsed    Int      @default(0)
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson       Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  amount    Int
+  refKey    String   // Unique refKey per user for idempotent reward granting
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, refKey])
+  @@index([userId])
+}
+
+model Badge {
+  id              String      @id @default(cuid())
+  key             String      @unique
+  name            String
+  description     String
+  icon            String      // Emoji
+  rarity          BadgeRarity
+  category        String
+  requirementText String
+
+  userBadges      UserBadge[]
+
+  @@index([category])
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@index([badgeId])
+}
+
+model Asset {
+  id              String    @id @default(cuid())
+  symbol          String    @unique
+  name            String
+  type            AssetType
+  basePrice       Float
+  volatility      Float
+  minInvestment   Float
+  allowFractional Boolean   @default(true)
+
+  holdings        Holding[]
+  transactions    Transaction[]
+
+  @@index([type])
+}
+
+model Holding {
+  id          String @id @default(cuid())
+  userId      String
+  assetId     String
+  quantity    Float
+  avgBuyPrice Float
+
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  asset       Asset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, assetId])
+  @@index([userId])
+  @@index([assetId])
+}
+
+model Transaction {
+  id        String          @id @default(cuid())
+  userId    String
+  assetId   String
+  side      TransactionSide
+  quantity  Float
+  price     Float
+  total     Float
+  createdAt DateTime        @default(now())
+
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  asset     Asset           @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([assetId])
+  @@index([createdAt])
+}
+
+model NewsArticle {
+  id                String       @id @default(cuid())
+  category          NewsCategory
+  title             String
+  summary           String
+  whatHappened      String       @db.Text
+  whyItMatters      String[]
+  keyTakeaway       String
+  imageUrl          String?
+  readMinutes       Int
+  publishedAt       DateTime     @default(now())
+  relatedLessonSlug String?
+
+  reads             NewsRead[]
+
+  @@index([category])
+  @@index([publishedAt])
+}
+
+model NewsRead {
+  id        String      @id @default(cuid())
+  userId    String
+  articleId String
+  createdAt DateTime    @default(now())
+
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   NewsArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([userId])
+  @@index([articleId])
+}

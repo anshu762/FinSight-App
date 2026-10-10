@@ -1,0 +1,144 @@
+### ========================================================
+### FinSight API Requests (Phase 1: Database & Auth)
+### Base URL: http://localhost:4000
+### ========================================================
+
+@baseUrl = http://localhost:4000
+@authToken = {{loginSuccess.response.body.data.token}}
+
+### 1. Health Check
+GET {{baseUrl}}/health
+Accept: application/json
+
+### --------------------------------------------------------
+### AUTHENTICATION: REGISTER
+### --------------------------------------------------------
+
+### 2. Register: Success (201 Created)
+# @name registerSuccess
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "student@finsight.app",
+  "password": "Password123",
+  "name": "Aarav Sharma",
+  "dob": "2008-05-15"
+}
+
+### 3. Register: Duplicate Email (409 Conflict)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "student@finsight.app",
+  "password": "Password123",
+  "name": "Aarav Sharma",
+  "dob": "2008-05-15"
+}
+
+### 4. Register: Weak Password - No uppercase or numbers (422 Unprocessable)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "weakpass@finsight.app",
+  "password": "password",
+  "name": "Weak User",
+  "dob": "2006-01-01"
+}
+
+### 5. Register: Under 13 Years Old (422 Unprocessable)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "too_young@finsight.app",
+  "password": "Password123",
+  "name": "Kid User",
+  "dob": "2020-01-01"
+}
+
+### 6. Register: Invalid Future DOB (422 Unprocessable)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "time_traveler@finsight.app",
+  "password": "Password123",
+  "name": "Future User",
+  "dob": "2099-01-01"
+}
+
+### --------------------------------------------------------
+### AUTHENTICATION: LOGIN
+### --------------------------------------------------------
+
+### 7. Login: Success (200 OK)
+# @name loginSuccess
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "student@finsight.app",
+  "password": "Password123"
+}
+
+### 8. Login: Incorrect Password (401 Unauthorized - Generic Error)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "student@finsight.app",
+  "password": "WrongPassword999"
+}
+
+### 9. Login: Nonexistent Email (401 Unauthorized - Generic Error)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nobody@finsight.app",
+  "password": "Password123"
+}
+
+### --------------------------------------------------------
+### USER PROFILE: GET /api/auth/me & PATCH /api/users/me
+### --------------------------------------------------------
+
+### 10. Get Current User Profile (200 OK - requires auth)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{authToken}}
+
+### 11. Get Current User Profile: Missing Token (401 Unauthorized)
+GET {{baseUrl}}/api/auth/me
+
+### 12. Get Current User Profile: Malformed Token (401 Unauthorized)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer invalid-token-string-xyz
+
+### 13. Update User Profile: Valid ageGroup & name (200 OK)
+PATCH {{baseUrl}}/api/users/me
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "ageGroup": "TEEN_ADVANCED",
+  "name": "Aarav S."
+}
+
+### 14. Update User Profile: Invalid ageGroup Enum (422 Unprocessable)
+PATCH {{baseUrl}}/api/users/me
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "ageGroup": "SENIOR_CITIZEN"
+}
+
+### 15. Update User Profile: Empty body with no fields (422 Unprocessable)
+PATCH {{baseUrl}}/api/users/me
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{}
