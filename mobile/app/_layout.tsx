@@ -1,58 +1,129 @@
 import '../global.css';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View } from 'react-native';
+import { Stack, useRouter, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useAuthStore } from '../src/stores/auth';
+import { apiClient } from '../src/api/client';
+import { type UserProfile } from '../src/api/types';
+import { Toast, OfflineBanner } from '../src/components/ui';
 
-import { useColorScheme } from '@/components/useColorScheme';
+export { ErrorBoundary } from 'expo-router';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// Prevent native splash screen from hiding automatically
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  const { isHydrated, hydrate } = useAuthStore();
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if (fontError) throw fontError;
+  }, [fontError]);
+
+  // Hydrate auth state from SecureStore and validate with server
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        await hydrate();
+        const token = useAuthStore.getState().token;
+        if (token) {
+          try {
+            const freshUser = await apiClient.get<unknown, { user: UserProfile }>('/api/auth/me');
+            if (freshUser?.user) {
+              await useAuthStore.getState().updateUser(freshUser.user);
+            }
+          } catch (err: unknown) {
+            // If offline, keep cached user; if 401, apiClient interceptor handles logout
+          }
+        }
+      } finally {
+        setAppReady(true);
+      }
+    };
+
+    initAuth();
+  }, [hydrate]);
+
+  useEffect(() => {
+    if (fontsLoaded && isHydrated && appReady) {
+      SplashScreen.hideAsync().catch(() => {});
     }
-  }, [loaded]);
+  }, [fontsLoaded, isHydrated, appReady]);
 
-  if (!loaded) {
+  if (!fontsLoaded || !isHydrated || !appReady) {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <View className="flex-1 bg-background">
+          <OfflineBanner />
+          <Toast />
+          <RootLayoutNav />
+        </View>
+      </ThemeProvider>
+    </SafeAreaProvider>
+  );
 }
 
 function RootLayoutNav() {
+  const { token, user } = useAuthStore();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleRouteGuard = useCallback(() => {
+    const inAuthGroup =
+      pathname.startsWith('/(auth)') ||
+      pathname === '/welcome' ||
+      pathname === '/login' ||
+      pathname === '/register' ||
+      pathname === '/age-group';
+    const inTabsGroup = pathname.startsWith('/(tabs)') || pathname === '/';
+    const isAgeGroupScreen = pathname.includes('age-group');
+
+    const isAuthenticated = Boolean(token && user);
+
+    if (!isAuthenticated && !inAuthGroup) {
+      // Unauthenticated user -> redirect to welcome
+      router.replace('/(auth)/welcome');
+    } else if (isAuthenticated) {
+      if (!user?.ageGroup && !isAgeGroupScreen) {
+        // Must select age group first
+        router.replace('/(auth)/age-group');
+      } else if (user?.ageGroup && !inTabsGroup) {
+        // Authenticated user with ageGroup -> redirect to tabs
+        router.replace('/(tabs)');
+      }
+    }
+  }, [token, user, pathname, router]);
+
+  useEffect(() => {
+    handleRouteGuard();
+  }, [handleRouteGuard]);
+
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+        contentStyle: { backgroundColor: '#F8FAFC' },
+      }}
+    >
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="+not-found" options={{ title: 'Not Found' }} />
+    </Stack>
   );
 }
