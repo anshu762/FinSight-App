@@ -9,7 +9,7 @@ import {
 import * as Haptics from 'expo-haptics';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
-export type ButtonSize = 'sm' | 'md';
+export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<PressableProps, 'children'> {
   title: string;
@@ -52,7 +52,8 @@ export const Button: React.FC<ButtonProps> = ({
     onPress?.();
   }, [disabled, loading, onPress]);
 
-  const heightClass = size === 'sm' ? 'h-[40px] px-4' : 'h-[52px] px-5';
+  const heightClass =
+    size === 'sm' ? 'h-[40px] px-4' : size === 'lg' ? 'h-[52px] px-6' : 'h-[52px] px-5';
 
   const variantContainer: Record<ButtonVariant, string> = {
     primary: 'bg-primary border-primary active:bg-primary-dark',

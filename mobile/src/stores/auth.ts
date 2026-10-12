@@ -58,6 +58,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       await SecureStore.deleteItemAsync(TOKEN_KEY);
       await SecureStore.deleteItemAsync(USER_KEY);
+      await SecureStore.deleteItemAsync('finsight_last_checkin_date');
     } catch {
       // SecureStore error fallback
     }

@@ -7,8 +7,10 @@ import { useFonts } from 'expo-font';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../src/stores/auth';
 import { apiClient } from '../src/api/client';
+import { queryClient } from '../src/api/query-client';
 import { type UserProfile } from '../src/api/types';
 import { Toast, OfflineBanner } from '../src/components/ui';
 
@@ -42,7 +44,7 @@ export default function RootLayout() {
             if (freshUser?.user) {
               await useAuthStore.getState().updateUser(freshUser.user);
             }
-          } catch (err: unknown) {
+          } catch {
             // If offline, keep cached user; if 401, apiClient interceptor handles logout
           }
         }
@@ -66,13 +68,15 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <View className="flex-1 bg-background">
-          <OfflineBanner />
-          <Toast />
-          <RootLayoutNav />
-        </View>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider value={DefaultTheme}>
+          <View className="flex-1 bg-background">
+            <OfflineBanner />
+            <Toast />
+            <RootLayoutNav />
+          </View>
+        </ThemeProvider>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }
@@ -89,7 +93,6 @@ function RootLayoutNav() {
       pathname === '/login' ||
       pathname === '/register' ||
       pathname === '/age-group';
-    const inTabsGroup = pathname.startsWith('/(tabs)') || pathname === '/';
     const isAgeGroupScreen = pathname.includes('age-group');
 
     const isAuthenticated = Boolean(token && user);
@@ -101,8 +104,8 @@ function RootLayoutNav() {
       if (!user?.ageGroup && !isAgeGroupScreen) {
         // Must select age group first
         router.replace('/(auth)/age-group');
-      } else if (user?.ageGroup && !inTabsGroup) {
-        // Authenticated user with ageGroup -> redirect to tabs
+      } else if (user?.ageGroup && inAuthGroup) {
+        // Authenticated user with ageGroup who lands on auth screen -> redirect to tabs
         router.replace('/(tabs)');
       }
     }
@@ -122,6 +125,10 @@ function RootLayoutNav() {
     >
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="topic/[slug]" options={{ headerShown: false }} />
+      <Stack.Screen name="lesson/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="badges" options={{ headerShown: false }} />
+      <Stack.Screen name="profile" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       <Stack.Screen name="+not-found" options={{ title: 'Not Found' }} />
     </Stack>

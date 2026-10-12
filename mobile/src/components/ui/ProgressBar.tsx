@@ -9,6 +9,7 @@ import Animated, {
 export interface ProgressBarProps {
   progress: number; // 0 to 1
   height?: number;
+  color?: string;
   className?: string;
   fillClassName?: string;
   style?: ViewStyle;
@@ -17,6 +18,7 @@ export interface ProgressBarProps {
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   progress,
   height = 8,
+  color,
   className = '',
   fillClassName = 'bg-primary',
   style,
@@ -41,7 +43,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     >
       <Animated.View
         className={`h-full rounded-chip ${fillClassName}`}
-        style={animatedStyle}
+        style={[animatedStyle, color ? { backgroundColor: color } : undefined]}
       />
     </View>
   );

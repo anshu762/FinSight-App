@@ -32,6 +32,12 @@ const toastConfig: Record<
     icon: 'information-circle',
     iconColor: '#4F46E5',
   },
+  warning: {
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    icon: 'warning',
+    iconColor: '#F59E0B',
+  },
 };
 
 export const Toast: React.FC = () => {
