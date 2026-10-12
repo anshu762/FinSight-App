@@ -142,3 +142,112 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {}
+
+
+### --------------------------------------------------------
+### PHASE 3: GAMIFICATION (DAILY CHECK-IN)
+### --------------------------------------------------------
+
+### 16. Daily Check-in: First of the day (+25 XP & streak updated)
+POST {{baseUrl}}/api/me/checkin
+Authorization: Bearer {{authToken}}
+
+### 17. Daily Check-in: Duplicate on same day (no-op, 0 XP, alreadyCheckedIn: true)
+POST {{baseUrl}}/api/me/checkin
+Authorization: Bearer {{authToken}}
+
+### --------------------------------------------------------
+### PHASE 3: LEARNING TOPICS & LESSONS
+### --------------------------------------------------------
+
+### 18. List All Topics (totalLessons, completedLessons, progress, nextLesson)
+# @name getTopics
+GET {{baseUrl}}/api/topics
+Authorization: Bearer {{authToken}}
+
+### 19. Get Stock Market Topic by Slug (with lesson statuses: available, locked)
+# @name getStocksTopic
+GET {{baseUrl}}/api/topics/stocks
+Authorization: Bearer {{authToken}}
+
+### 20. Get Unknown Topic Slug (404 Not Found)
+GET {{baseUrl}}/api/topics/non-existent-topic
+Authorization: Bearer {{authToken}}
+
+### 21. Get Lesson 1: What is a Stock? (Available -> 200 OK with full content)
+@lesson1Id = {{getStocksTopic.response.body.data.lessons[0].id}}
+GET {{baseUrl}}/api/lessons/{{lesson1Id}}
+Authorization: Bearer {{authToken}}
+
+### 22. Get Lesson 2 Before Lesson 1 is Completed (403 Forbidden with code LESSON_LOCKED)
+@lesson2Id = {{getStocksTopic.response.body.data.lessons[1].id}}
+GET {{baseUrl}}/api/lessons/{{lesson2Id}}
+Authorization: Bearer {{authToken}}
+
+### 23. Complete Lesson 1: First attempt (Computes XP, awards badges, unlocks Lesson 2)
+# @name completeLesson1
+POST {{baseUrl}}/api/lessons/{{lesson1Id}}/complete
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "quizAttempts": 1,
+  "hintsUsed": 1
+}
+
+### 24. Complete Lesson 1: Replay / Double Submit (0 XP, alreadyCompleted: true)
+POST {{baseUrl}}/api/lessons/{{lesson1Id}}/complete
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "quizAttempts": 1,
+  "hintsUsed": 0
+}
+
+### 25. Complete Lesson with Invalid Validation (attempts > 3 -> 422 Unprocessable)
+POST {{baseUrl}}/api/lessons/{{lesson1Id}}/complete
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "quizAttempts": 5,
+  "hintsUsed": 0
+}
+
+### 26. Get Lesson 2 Now (Lesson 1 completed -> Available -> 200 OK)
+GET {{baseUrl}}/api/lessons/{{lesson2Id}}
+Authorization: Bearer {{authToken}}
+
+### 27. Complete Lesson 2
+POST {{baseUrl}}/api/lessons/{{lesson2Id}}/complete
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "quizAttempts": 2,
+  "hintsUsed": 0
+}
+
+### 28. Complete Lesson 3 (Topic Finished -> +500 XP Topic Mastery Bonus & topic_master badge)
+@lesson3Id = {{getStocksTopic.response.body.data.lessons[2].id}}
+POST {{baseUrl}}/api/lessons/{{lesson3Id}}/complete
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "quizAttempts": 1,
+  "hintsUsed": 0
+}
+
+### --------------------------------------------------------
+### PHASE 3: BADGES & HOME AGGREGATED DASHBOARD
+### --------------------------------------------------------
+
+### 29. List All Badges (returns all 12 badges with isEarned and earnedAt)
+GET {{baseUrl}}/api/badges
+Authorization: Bearer {{authToken}}
+
+### 30. Get Home Aggregated Dashboard (user stats, continueLesson, topics progress, badges)
+GET {{baseUrl}}/api/home
+Authorization: Bearer {{authToken}}

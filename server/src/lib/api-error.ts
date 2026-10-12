@@ -25,8 +25,8 @@ export class ApiError extends Error {
     return new ApiError(401, code, message);
   }
 
-  static forbidden(message: string, code = 'FORBIDDEN'): ApiError {
-    return new ApiError(403, code, message);
+  static forbidden(message: string, code = 'FORBIDDEN', fields?: Record<string, string>): ApiError {
+    return new ApiError(403, code, message, fields);
   }
 
   static notFound(message: string, code = 'NOT_FOUND'): ApiError {

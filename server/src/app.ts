@@ -4,6 +4,10 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { userRouter } from './modules/user/user.routes.js';
+import { topicsRouter, lessonsRouter } from './modules/learn/learn.routes.js';
+import { meRouter, badgeRouter } from './modules/gamification/gamification.routes.js';
+import { homeRouter } from './modules/home/home.routes.js';
+import { authenticate } from './middleware/auth.js';
 import { authRateLimiter } from './middleware/rate-limiter.js';
 import { notFoundHandler } from './middleware/not-found.js';
 import { errorHandler } from './middleware/error-handler.js';
@@ -48,6 +52,11 @@ app.get('/api/health', healthHandler);
 // API Modules
 app.use('/api/auth', authRateLimiter, authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/topics', authenticate, topicsRouter);
+app.use('/api/lessons', authenticate, lessonsRouter);
+app.use('/api/me', authenticate, meRouter);
+app.use('/api/badges', authenticate, badgeRouter);
+app.use('/api/home', authenticate, homeRouter);
 
 // 404 Handler
 app.use(notFoundHandler);
