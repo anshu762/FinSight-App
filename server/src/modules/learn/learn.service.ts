@@ -207,6 +207,7 @@ export const getLessonById = async (userId: string, lessonId: string) => {
 
   return {
     ...lesson,
+    status: progress ? ('completed' as const) : ('available' as const),
     isCompleted: Boolean(progress),
     completedAt: progress?.completedAt ?? null,
   };

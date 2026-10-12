@@ -48,10 +48,36 @@ export const getHomeDashboard = async (userId: string) => {
         order: topic.nextLesson.order,
         topicSlug: topic.slug,
         topicTitle: topic.title,
+        topic: {
+          slug: topic.slug,
+          title: topic.title,
+          icon: topic.icon,
+          color: topic.color,
+        },
+      } as {
+        id: string;
+        slug: string;
+        title: string;
+        order: number;
+        topicSlug: string;
+        topicTitle: string;
+        topic: { slug: string; title: string; icon: string; color: string };
       };
       break;
     }
   }
+
+  const mappedRecentBadges = recentUserBadges.map((ub) => ({
+    id: ub.badge.id,
+    key: ub.badge.key,
+    name: ub.badge.name,
+    description: ub.badge.description,
+    icon: ub.badge.icon,
+    rarity: ub.badge.rarity,
+    category: ub.badge.category,
+    requirementText: ub.badge.requirementText,
+    earnedAt: ub.earnedAt.toISOString(),
+  }));
 
   return {
     user: {
@@ -68,19 +94,11 @@ export const getHomeDashboard = async (userId: string) => {
     badges: {
       earnedCount: totalUserBadgesCount,
       totalCount: totalBadgesCount,
-      recent: recentUserBadges.map((ub) => ({
-        id: ub.badge.id,
-        key: ub.badge.key,
-        name: ub.badge.name,
-        description: ub.badge.description,
-        icon: ub.badge.icon,
-        rarity: ub.badge.rarity,
-        category: ub.badge.category,
-        requirementText: ub.badge.requirementText,
-        earnedAt: ub.earnedAt.toISOString(),
-      })),
+      recent: mappedRecentBadges,
+      recentEarned: mappedRecentBadges,
     },
     latestNews: null,
     portfolioValue: null,
+    portfolio: null,
   };
 };

@@ -6,6 +6,7 @@ import { getLevelInfo, type LevelInfo } from './level.js';
 export interface StreakReward {
   type: string;
   amount: number;
+  xp: number;
   description: string;
 }
 
@@ -20,6 +21,11 @@ export interface CheckInResult {
     levelInfo: LevelInfo;
     streak: number;
     longestStreak: number;
+  };
+  user: {
+    id: string;
+    xp: number;
+    levelInfo: LevelInfo;
   };
   newlyEarnedBadges: EarnedBadgeInfo[];
 }
@@ -76,6 +82,11 @@ export const dailyCheckIn = async (
           streak: user.streak,
           longestStreak: user.longestStreak,
         },
+        user: {
+          id: user.id,
+          xp: user.xp,
+          levelInfo: getLevelInfo(user.xp),
+        },
         newlyEarnedBadges: [],
       };
     }
@@ -124,6 +135,7 @@ export const dailyCheckIn = async (
       rewards.push({
         type: 'daily_login',
         amount: 25,
+        xp: 25,
         description: 'Daily Check-in Reward',
       });
     }
@@ -142,6 +154,7 @@ export const dailyCheckIn = async (
         rewards.push({
           type: 'streak_milestone_7',
           amount: 200,
+          xp: 200,
           description: `${newStreak}-Day Streak Bonus!`,
         });
       }
@@ -161,6 +174,7 @@ export const dailyCheckIn = async (
         rewards.push({
           type: 'streak_milestone_30',
           amount: 1000,
+          xp: 1000,
           description: `${newStreak}-Day Monthly Master Bonus!`,
         });
       }
@@ -185,6 +199,11 @@ export const dailyCheckIn = async (
         levelInfo: getLevelInfo(refreshedUser.xp),
         streak: newStreak,
         longestStreak: newLongestStreak,
+      },
+      user: {
+        id: userId,
+        xp: refreshedUser.xp,
+        levelInfo: getLevelInfo(refreshedUser.xp),
       },
       newlyEarnedBadges,
     };
