@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { AppText, Card, ProgressBar, ModalSheet } from '../ui';
+import { AppText, Card, ProgressBar } from '../ui';
 import { type LevelInfo } from '../../api/types';
+import { StatsInfoModal, type StatsInfoType } from './StatsInfoModal';
 
 interface StatsRowProps {
   xp: number;
@@ -17,8 +18,7 @@ export const StatsRow: React.FC<StatsRowProps> = ({
   longestStreak,
   levelInfo,
 }) => {
-  const [activeInfo, setActiveInfo] = useState<'xp' | 'level' | 'streak' | null>(null);
-
+  const [activeInfo, setActiveInfo] = useState<StatsInfoType>(null);
   const formattedXp = xp.toLocaleString('en-IN');
 
   return (
@@ -93,84 +93,12 @@ export const StatsRow: React.FC<StatsRowProps> = ({
         </View>
       </View>
 
-      {/* Info Modal */}
-      <ModalSheet
-        visible={activeInfo !== null}
+      <StatsInfoModal
+        activeInfo={activeInfo}
         onClose={() => setActiveInfo(null)}
-        title={
-          activeInfo === 'level'
-            ? 'Level Progression 🏆'
-            : activeInfo === 'xp'
-            ? 'Experience Points (XP) ⚡'
-            : 'Login Streaks 🔥'
-        }
-        subtitle="FinSight Gamification Engine"
-      >
-        <View className="gap-3 py-2">
-          {activeInfo === 'level' && (
-            <>
-              <AppText variant="body" className="text-slate-700 leading-6">
-                Your level measures cumulative financial knowledge. As your XP grows, you level up and unlock higher mastery badges!
-              </AppText>
-              <View className="bg-slate-50 border border-border rounded-xl p-3.5 gap-1.5">
-                <AppText variant="caption" className="text-slate-600">
-                  • Cumulative XP formula: 50 × (Level - 1) × (Level + 2)
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Level 2 requires 200 XP
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Level 3 requires 500 XP
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Level 5 requires 1,400 XP
-                </AppText>
-              </View>
-            </>
-          )}
-
-          {activeInfo === 'xp' && (
-            <>
-              <AppText variant="body" className="text-slate-700 leading-6">
-                Earn XP by completing micro-lessons, simulations, quizzes, and checking in daily.
-              </AppText>
-              <View className="bg-slate-50 border border-border rounded-xl p-3.5 gap-1.5">
-                <AppText variant="caption" className="text-slate-600">
-                  • Micro Lesson completion: +100 XP
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Interactive Simulation: +150 XP
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Quiz (First try): +100 XP (Second try: +50 XP)
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • Topic Mastery Bonus: +500 XP
-                </AppText>
-              </View>
-            </>
-          )}
-
-          {activeInfo === 'streak' && (
-            <>
-              <AppText variant="body" className="text-slate-700 leading-6">
-                Streaks reward everyday financial discipline. Log in every day before midnight IST to keep your flame burning!
-              </AppText>
-              <View className="bg-slate-50 border border-border rounded-xl p-3.5 gap-1.5">
-                <AppText variant="caption" className="text-slate-600">
-                  • Current streak: {streak} days
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • All-time record: {longestStreak} days
-                </AppText>
-                <AppText variant="caption" className="text-slate-600">
-                  • 7-day bonus: +200 XP • 30-day bonus: +1,000 XP
-                </AppText>
-              </View>
-            </>
-          )}
-        </View>
-      </ModalSheet>
+        streak={streak}
+        longestStreak={longestStreak}
+      />
     </>
   );
 };

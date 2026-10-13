@@ -15,8 +15,10 @@ export const invalidateHome = () => queryClient.invalidateQueries({ queryKey: ['
 export const invalidateTopics = () => queryClient.invalidateQueries({ queryKey: ['topics'] });
 export const invalidateTopic = (slug: string) => queryClient.invalidateQueries({ queryKey: ['topic', slug] });
 export const invalidateBadges = () => queryClient.invalidateQueries({ queryKey: ['badges'] });
+export const invalidateNews = () => queryClient.invalidateQueries({ queryKey: ['news'] });
 export const invalidateAllData = () => {
   queryClient.invalidateQueries({ queryKey: ['home'] });
   queryClient.invalidateQueries({ queryKey: ['topics'] });
   queryClient.invalidateQueries({ queryKey: ['badges'] });
+  queryClient.invalidateQueries({ queryKey: ['news'] });
 };

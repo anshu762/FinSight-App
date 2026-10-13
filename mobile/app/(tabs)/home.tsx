@@ -31,7 +31,7 @@ export default function HomeScreen() {
 
   if (isLoading && !data) {
     return (
-      <Screen className="px-5 pt-3">
+      <Screen className="pt-3">
         {/* Header Skeleton */}
         <View className="flex-row items-center justify-between mb-4">
           <View className="flex-row items-center gap-3">
@@ -65,7 +65,7 @@ export default function HomeScreen() {
 
   if (isError || !data) {
     return (
-      <Screen className="px-5">
+      <Screen>
         <ErrorState
           title="Could not load dashboard"
           message={error?.message || 'Please check your connection and try again.'}
@@ -75,13 +75,14 @@ export default function HomeScreen() {
     );
   }
 
-  const { user, continueLesson, topics, badges, latestNews, portfolioValue } = data;
+  const { user, continueLesson, topics, badges, latestNews, portfolioValue, portfolio } = data;
 
   return (
-    <Screen>
+    <Screen paddingHorizontal={false}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 110 }}
+
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -131,12 +132,14 @@ export default function HomeScreen() {
         <NewsPreviewCard
           news={latestNews}
           onPressNewsTab={() => router.push('/(tabs)/news')}
+          onPressArticle={(articleId) => router.push(`/news/${articleId}`)}
         />
 
         {/* 7. Virtual Portfolio Simulator Shortcut */}
         <PortfolioShortcutCard
           cashBalance={user.cashBalance}
           portfolioValue={portfolioValue}
+          portfolio={portfolio}
           onLaunchSimulator={() => router.push('/(tabs)/portfolio')}
         />
       </ScrollView>

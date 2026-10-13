@@ -7,7 +7,9 @@ export interface ConfirmDialogProps {
   title: string;
   message: string;
   confirmTitle?: string;
+  confirmText?: string;
   cancelTitle?: string;
+  cancelText?: string;
   destructive?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
@@ -17,12 +19,17 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   visible,
   title,
   message,
-  confirmTitle = 'Confirm',
-  cancelTitle = 'Cancel',
+  confirmTitle,
+  confirmText,
+  cancelTitle,
+  cancelText,
   destructive = false,
   onConfirm,
   onCancel,
 }) => {
+  const resolvedConfirmTitle = confirmTitle ?? confirmText ?? 'Confirm';
+  const resolvedCancelTitle = cancelTitle ?? cancelText ?? 'Cancel';
+
   return (
     <Modal
       visible={visible}
@@ -43,20 +50,21 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
           <View className="flex-row items-center gap-3">
             <Button
-              title={cancelTitle}
+              title={resolvedCancelTitle}
               variant="secondary"
               size="sm"
               onPress={onCancel}
               className="flex-1"
             />
             <Button
-              title={confirmTitle}
+              title={resolvedConfirmTitle}
               variant={destructive ? 'danger' : 'primary'}
               size="sm"
               onPress={onConfirm}
               className="flex-1"
             />
           </View>
+
         </Pressable>
       </Pressable>
     </Modal>

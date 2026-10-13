@@ -127,8 +127,13 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="topic/[slug]" options={{ headerShown: false }} />
       <Stack.Screen name="lesson/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="news/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="badges" options={{ headerShown: false }} />
       <Stack.Screen name="profile" options={{ headerShown: false }} />
+      <Stack.Screen name="portfolio/explore" options={{ headerShown: false }} />
+      <Stack.Screen name="portfolio/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="portfolio/trade" options={{ headerShown: false }} />
+      <Stack.Screen name="portfolio/history" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       <Stack.Screen name="+not-found" options={{ title: 'Not Found' }} />
     </Stack>

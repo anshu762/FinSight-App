@@ -14,9 +14,14 @@ import { useBadges } from '../src/hooks/useBadges';
 import { type BadgeItem } from '../src/api/types';
 
 const CATEGORY_TITLES: Record<string, string> = {
+  learn: '📚 Learning & Mastery',
   LEARNING: '📚 Learning & Mastery',
+  streak: '🔥 Streak & Consistency',
   STREAK: '🔥 Streak & Consistency',
+  portfolio: '💼 Portfolio & Trading',
+  trading: '💼 Portfolio & Trading',
   TRADING: '💼 Portfolio & Trading',
+  news: '📰 Market Intelligence',
   NEWS: '📰 Market Intelligence',
 };
 
@@ -28,7 +33,7 @@ export default function BadgesScreen() {
     return (
       <Screen>
         <ScreenHeader title="Achievements" />
-        <View className="px-5 pt-3 gap-4">
+        <View className="gap-4 pt-2">
           <Skeleton width="100%" height={90} borderRadius={16} />
           <View className="flex-row gap-3">
             <Skeleton width="30%" height={120} borderRadius={16} />
@@ -44,7 +49,7 @@ export default function BadgesScreen() {
     return (
       <Screen>
         <ScreenHeader title="Achievements" />
-        <View className="px-5 flex-1 justify-center">
+        <View className="flex-1 justify-center">
           <ErrorState
             title="Failed to load badges"
             message={error?.message || 'Could not fetch achievement badges.'}
@@ -63,8 +68,10 @@ export default function BadgesScreen() {
   const categories = Array.from(new Set(badges.map((b) => b.category)));
 
   return (
-    <Screen>
-      <ScreenHeader title="Badges & Achievements" />
+    <Screen paddingHorizontal={false}>
+      <View className="px-5">
+        <ScreenHeader title="Badges & Achievements" />
+      </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -99,7 +106,7 @@ export default function BadgesScreen() {
         {/* Categories & 3-Column Grids */}
         {categories.map((category) => {
           const categoryBadges = badges.filter((b) => b.category === category);
-          const title = CATEGORY_TITLES[category] || category;
+          const title = CATEGORY_TITLES[category] || category.toUpperCase();
 
           // Split into rows of 3
           const rows: BadgeItem[][] = [];

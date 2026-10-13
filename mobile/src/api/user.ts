@@ -20,7 +20,12 @@ export const updateUserProfile = async (payload: {
   return res.user;
 };
 
+export const updateUserAgeGroup = async (ageGroup: AgeGroup): Promise<UserProfile> => {
+  return updateUserProfile({ ageGroup });
+};
+
 export const getMe = async (): Promise<UserProfile> => {
   const res = await apiClient.get<unknown, { user: UserProfile }>('/api/auth/me');
   return res.user;
 };
+

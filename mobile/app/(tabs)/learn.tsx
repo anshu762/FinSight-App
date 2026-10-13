@@ -14,8 +14,10 @@ export default function LearnTabScreen() {
   };
 
   return (
-    <Screen>
-      <ScreenHeader title="Learn" showBack={false} />
+    <Screen paddingHorizontal={false}>
+      <View className="px-5">
+        <ScreenHeader title="Learn" showBack={false} />
+      </View>
 
       {isLoading && !topics ? (
         <View className="px-5 pt-2 gap-3.5">

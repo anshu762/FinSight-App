@@ -10,49 +10,13 @@ import {
   Card,
   Button,
   ConfirmDialog,
-  ModalSheet,
 } from '../src/components/ui';
+import { EditAgeGroupSheet } from '../src/components/profile/EditAgeGroupSheet';
 import { useAuthStore } from '../src/stores/auth';
 import { useProfile } from '../src/hooks/useProfile';
 import { queryClient } from '../src/api/query-client';
+import { AGE_GROUPS } from '../src/lib/ageGroups';
 import { type AgeGroup } from '../src/api/types';
-
-const AGE_GROUPS: Array<{
-  id: AgeGroup;
-  title: string;
-  age: string;
-  emoji: string;
-  desc: string;
-}> = [
-  {
-    id: 'TEEN_BEGINNER',
-    title: 'Teen Beginner',
-    age: '13-15 yrs',
-    emoji: '🌱',
-    desc: 'Pocket money, saving basics, compounding, needs vs wants',
-  },
-  {
-    id: 'TEEN_ADVANCED',
-    title: 'Teen Advanced',
-    age: '16-18 yrs',
-    emoji: '📈',
-    desc: 'Stock market, mutual funds, inflation, first bank accounts',
-  },
-  {
-    id: 'YOUNG_ADULT',
-    title: 'Young Adult',
-    age: '19-21 yrs',
-    emoji: '🚀',
-    desc: 'College budgeting, SIPs, credit cards, taxes on internships',
-  },
-  {
-    id: 'YOUNG_PROFESSIONAL',
-    title: 'Young Professional',
-    age: '22-25 yrs',
-    emoji: '💼',
-    desc: 'Salary slips, CTC vs in-hand, tax regimes, portfolio building',
-  },
-];
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -85,8 +49,10 @@ export default function ProfileScreen() {
   const currentAgeGroupInfo = AGE_GROUPS.find((g) => g.id === user?.ageGroup);
 
   return (
-    <Screen>
-      <ScreenHeader title="My Profile" />
+    <Screen paddingHorizontal={false}>
+      <View className="px-5">
+        <ScreenHeader title="My Profile" />
+      </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -184,54 +150,14 @@ export default function ProfileScreen() {
       </ScrollView>
 
       {/* Age Group Edit Modal */}
-      <ModalSheet
+      <EditAgeGroupSheet
         visible={showAgeGroupModal}
+        selectedAgeGroup={selectedAgeGroup}
+        onSelect={setSelectedAgeGroup}
         onClose={() => setShowAgeGroupModal(false)}
-        title="Change Learning Stage"
-        subtitle="Tailor lessons and simulations to your stage"
-      >
-        <View className="gap-2.5 py-1 mb-4">
-          {AGE_GROUPS.map((group) => {
-            const isSelected = selectedAgeGroup === group.id;
-            return (
-              <Pressable
-                key={group.id}
-                onPress={() => setSelectedAgeGroup(group.id)}
-                className={`p-3.5 rounded-card border flex-row items-center gap-3 active:opacity-90 ${
-                  isSelected
-                    ? 'border-primary bg-primary-soft/40'
-                    : 'border-border bg-surface'
-                }`}
-              >
-                <AppText className="text-2xl">{group.emoji}</AppText>
-                <View className="flex-1">
-                  <View className="flex-row items-center justify-between">
-                    <AppText variant="body" className="font-bold text-sm">
-                      {group.title}
-                    </AppText>
-                    <AppText variant="caption" className="text-muted text-xs">
-                      {group.age}
-                    </AppText>
-                  </View>
-                  <AppText variant="caption" className="text-muted text-xs mt-0.5">
-                    {group.desc}
-                  </AppText>
-                </View>
-                {isSelected && (
-                  <Ionicons name="checkmark-circle" size={20} color="#4F46E5" />
-                )}
-              </Pressable>
-            );
-          })}
-        </View>
-
-        <Button
-          title="Save Changes"
-          variant="primary"
-          loading={isUpdating}
-          onPress={handleSaveAgeGroup}
-        />
-      </ModalSheet>
+        onSave={handleSaveAgeGroup}
+        isSaving={isUpdating}
+      />
 
       {/* Logout Confirmation Dialog */}
       <ConfirmDialog

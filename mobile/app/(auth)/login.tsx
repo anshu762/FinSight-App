@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, type TextInput } from 'react-native';
+import { View, type TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { KeyboardScreen, ScreenHeader, Input, Button } from '../../src/components/ui';
-import { apiClient } from '../../src/api/client';
+import { KeyboardScreen, ScreenHeader, Input, Button, AppText } from '../../src/components/ui';
+import { loginUser } from '../../src/api/auth';
 import { useAuthStore } from '../../src/stores/auth';
-import { type AuthResponse, type AppError } from '../../src/api/types';
+import { type AppError } from '../../src/api/types';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -38,12 +38,13 @@ export default function LoginScreen() {
   };
 
   const handleLogin = async () => {
+    if (loading) return;
     setErrorMessage('');
-    if (!validateForm() || loading) return;
+    if (!validateForm()) return;
 
     setLoading(true);
     try {
-      const response = await apiClient.post<unknown, AuthResponse>('/api/auth/login', {
+      const response = await loginUser({
         email: email.trim().toLowerCase(),
         password,
       });
@@ -59,7 +60,7 @@ export default function LoginScreen() {
       const appErr = err as AppError;
       setErrorMessage(appErr.message || 'Invalid email or password. Please try again.');
       if (appErr.fields) {
-        setFieldErrors((prev) => ({ ...prev, ...appErr.fields }));
+        setFieldErrors(appErr.fields);
       }
     } finally {
       setLoading(false);
@@ -68,75 +69,80 @@ export default function LoginScreen() {
 
   return (
     <KeyboardScreen>
-      <ScreenHeader title="" />
+      <ScreenHeader title="Welcome Back" showBack onBack={() => router.back()} />
 
-      <View className="mb-8 mt-2">
-        <Text className="text-2xl font-bold text-text">Welcome Back</Text>
-        <Text className="text-sm text-muted mt-1.5">
-          Log in to continue your financial journey and track your virtual portfolio.
-        </Text>
+      <View className="mb-6 mt-2">
+        <AppText variant="h2" className="text-2xl font-bold text-text">
+          Log in to FinSight
+        </AppText>
+        <AppText variant="body" className="text-sm text-muted mt-1">
+          Continue your financial literacy and simulation journey.
+        </AppText>
       </View>
 
-      {errorMessage ? (
-        <View className="bg-rose-50 border border-rose-200 rounded-card p-4 mb-5 flex-row items-center">
+      {Boolean(errorMessage) && (
+        <View className="flex-row items-center p-3.5 mb-5 bg-rose-50 border border-rose-200 rounded-xl gap-2.5">
           <Ionicons name="alert-circle" size={20} color="#EF4444" />
-          <Text className="text-xs font-semibold text-danger ml-2.5 flex-1">
+          <AppText variant="caption" className="text-danger flex-1 text-xs font-medium">
             {errorMessage}
-          </Text>
+          </AppText>
         </View>
-      ) : null}
+      )}
 
-      <Input
-        label="Email Address"
-        placeholder="you@example.com"
-        value={email}
-        onChangeText={(text) => {
-          setEmail(text);
-          if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: undefined }));
-        }}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoComplete="email"
-        returnKeyType="next"
-        onSubmitEditing={() => passwordRef.current?.focus()}
-        error={fieldErrors.email}
-        leftIcon={<Ionicons name="mail-outline" size={20} color="#64748B" />}
-      />
-
-      <Input
-        ref={passwordRef}
-        label="Password"
-        placeholder="Enter your password"
-        value={password}
-        onChangeText={(text) => {
-          setPassword(text);
-          if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
-        }}
-        isPassword
-        autoCapitalize="none"
-        returnKeyType="done"
-        onSubmitEditing={handleLogin}
-        error={fieldErrors.password}
-        leftIcon={<Ionicons name="lock-closed-outline" size={20} color="#64748B" />}
-      />
-
-      <View className="mt-6">
-        <Button
-          title="Log In"
-          variant="primary"
-          loading={loading}
-          onPress={handleLogin}
+      <View className="mb-4">
+        <Input
+          label="Email Address"
+          placeholder="e.g. anubhav@example.com"
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text);
+            if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: undefined }));
+          }}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current?.focus()}
+          error={fieldErrors.email}
         />
       </View>
 
-      <View className="flex-row items-center justify-center mt-6">
-        <Text className="text-sm text-muted">Don't have an account? </Text>
-        <Text
+      <View className="mb-6">
+        <Input
+          ref={passwordRef}
+          label="Password"
+          placeholder="••••••••"
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+            if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
+          }}
+          isPassword
+          returnKeyType="done"
+          onSubmitEditing={handleLogin}
+          error={fieldErrors.password}
+        />
+      </View>
+
+      <Button
+        title="Log In"
+        variant="primary"
+        loading={loading}
+        disabled={loading}
+        onPress={handleLogin}
+        className="mb-4"
+      />
+
+      <View className="flex-row justify-center items-center py-2">
+        <AppText variant="body" className="text-sm text-muted">
+          Don't have an account?{' '}
+        </AppText>
+        <Button
+          title="Sign Up"
+          variant="ghost"
+          size="sm"
           onPress={() => router.replace('/(auth)/register')}
-          className="text-sm font-bold text-primary"
-        >
-          Sign Up
-        </Text>
+        />
       </View>
     </KeyboardScreen>
   );
