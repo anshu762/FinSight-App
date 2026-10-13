@@ -73,9 +73,10 @@ export const errorHandler: ErrorRequestHandler = (
     }
   }
 
-  // 4. Fallback internal server error (never leak internal stack trace)
-  console.error('[Unhandled Internal Error]:', err);
+  // 4. Fallback internal server error (never leak internal stack trace to client)
+  console.error(`[Unhandled Internal Error]: ${err.message}`, process.env.NODE_ENV !== 'production' ? err.stack : undefined);
   res.status(500).json({
+
     success: false,
     error: {
       code: 'INTERNAL_SERVER_ERROR',

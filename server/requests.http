@@ -6,6 +6,10 @@
 @baseUrl = http://localhost:4000
 @authToken = {{loginSuccess.response.body.data.token}}
 
+### 0. Server Live Root Check
+GET {{baseUrl}}/
+Accept: application/json
+
 ### 1. Health Check
 GET {{baseUrl}}/health
 Accept: application/json
@@ -248,6 +252,27 @@ Content-Type: application/json
 GET {{baseUrl}}/api/badges
 Authorization: Bearer {{authToken}}
 
-### 30. Get Home Aggregated Dashboard (user stats, continueLesson, topics progress, badges)
+### 30. Get Home Aggregated Dashboard (user stats, continueLesson, topics progress, badges, latestNews)
 GET {{baseUrl}}/api/home
+Authorization: Bearer {{authToken}}
+
+### --------------------------------------------------------
+### PHASE 7: NEWS HUB
+### --------------------------------------------------------
+
+### 31. List News Articles (All Categories, Paginated)
+GET {{baseUrl}}/api/news
+Authorization: Bearer {{authToken}}
+
+### 32. List News Articles Filtered by Category
+GET {{baseUrl}}/api/news?category=STOCK_MARKET&limit=5
+Authorization: Bearer {{authToken}}
+
+### 33. Get Specific News Article Detail (with Related Lesson Status)
+# Replace with an actual article ID returned by list
+GET {{baseUrl}}/api/news/cm3samplearticleid
+Authorization: Bearer {{authToken}}
+
+### 34. Mark News Article as Read (Idempotent +25 XP, max 5/day IST, evaluates badges)
+POST {{baseUrl}}/api/news/cm3samplearticleid/read
 Authorization: Bearer {{authToken}}

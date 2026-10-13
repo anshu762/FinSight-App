@@ -1,4 +1,5 @@
 import { prisma } from '../../lib/prisma.js';
+import { Prisma } from '@prisma/client';
 import { awardXp } from './xp.service.js';
 import { evaluateBadges, type EarnedBadgeInfo } from './badge.service.js';
 import { getLevelInfo, type LevelInfo } from './level.js';
@@ -30,29 +31,9 @@ export interface CheckInResult {
   newlyEarnedBadges: EarnedBadgeInfo[];
 }
 
-/**
- * Returns YYYY-MM-DD string in Asia/Kolkata timezone.
- */
-export const getIstDateString = (date: Date = new Date()): string => {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Kolkata',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(date);
-};
+import { getIstDateString, getCalendarDayDiff } from './streak.helpers.js';
+export { getIstDateString, getCalendarDayDiff };
 
-/**
- * Calculates calendar day difference (date2 - date1) from YYYY-MM-DD strings.
- */
-export const getCalendarDayDiff = (dateStr1: string, dateStr2: string): number => {
-  const [y1, m1, d1] = dateStr1.split('-').map(Number);
-  const [y2, m2, d2] = dateStr2.split('-').map(Number);
-  const utc1 = Date.UTC(y1, m1 - 1, d1);
-  const utc2 = Date.UTC(y2, m2 - 1, d2);
-  const msPerDay = 24 * 60 * 60 * 1000;
-  return Math.round((utc2 - utc1) / msPerDay);
-};
 
 /**
  * Daily check-in service using Asia/Kolkata timezone.
@@ -63,7 +44,7 @@ export const dailyCheckIn = async (
 ): Promise<CheckInResult> => {
   const todayIst = getIstDateString(now);
 
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const user = await tx.user.findUniqueOrThrow({
       where: { id: userId },
     });
@@ -207,5 +188,8 @@ export const dailyCheckIn = async (
       },
       newlyEarnedBadges,
     };
+  }, {
+    maxWait: 10000,
+    timeout: 20000,
   });
 };

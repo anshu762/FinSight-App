@@ -5,10 +5,10 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
 
 enum AgeGroup {
   TEEN_BEGINNER      // 13-15
@@ -208,6 +208,7 @@ model Transaction {
 
 model NewsArticle {
   id                String       @id @default(cuid())
+  slug              String       @unique
   category          NewsCategory
   title             String
   summary           String

@@ -7,6 +7,8 @@ import { userRouter } from './modules/user/user.routes.js';
 import { topicsRouter, lessonsRouter } from './modules/learn/learn.routes.js';
 import { meRouter, badgeRouter } from './modules/gamification/gamification.routes.js';
 import { homeRouter } from './modules/home/home.routes.js';
+import { portfolioRouter } from './modules/portfolio/portfolio.routes.js';
+import { newsRouter } from './modules/news/news.routes.js';
 import { authenticate } from './middleware/auth.js';
 import { authRateLimiter } from './middleware/rate-limiter.js';
 import { notFoundHandler } from './middleware/not-found.js';
@@ -40,12 +42,14 @@ const healthHandler = (_req: Request, res: Response) => {
     success: true,
     data: {
       status: 'ok',
-      message: 'Server connected',
+      message: 'FinSight Server is live & connected',
       timestamp: new Date().toISOString(),
+      uptime: Math.floor(process.uptime()),
     },
   });
 };
 
+app.get('/', healthHandler);
 app.get('/health', healthHandler);
 app.get('/api/health', healthHandler);
 
@@ -57,6 +61,8 @@ app.use('/api/lessons', authenticate, lessonsRouter);
 app.use('/api/me', authenticate, meRouter);
 app.use('/api/badges', authenticate, badgeRouter);
 app.use('/api/home', authenticate, homeRouter);
+app.use('/api/portfolio', authenticate, portfolioRouter);
+app.use('/api/news', authenticate, newsRouter);
 
 // 404 Handler
 app.use(notFoundHandler);

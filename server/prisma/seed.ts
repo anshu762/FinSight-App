@@ -7,6 +7,7 @@ import { taxesLessons } from './seed-data/taxes.js';
 import { cryptoLessons } from './seed-data/crypto.js';
 import { badgesSeedData } from './seed-data/badges.js';
 import { assetsSeedData } from './seed-data/assets.js';
+import { newsSeedData } from './seed-data/news.js';
 
 const prisma = new PrismaClient();
 
@@ -121,6 +122,39 @@ async function main(): Promise<void> {
         volatility: asset.volatility,
         minInvestment: asset.minInvestment,
         allowFractional: asset.allowFractional,
+      },
+    });
+  }
+
+  // 5. Seed News Articles
+  console.log(`Seeding ${newsSeedData.length} news articles...`);
+  const now = Date.now();
+  for (const news of newsSeedData) {
+    const publishedAt = new Date(now - news.hoursAgo * 60 * 60 * 1000);
+    await prisma.newsArticle.upsert({
+      where: { slug: news.slug },
+      update: {
+        category: news.category,
+        title: news.title,
+        summary: news.summary,
+        whatHappened: news.whatHappened,
+        whyItMatters: news.whyItMatters,
+        keyTakeaway: news.keyTakeaway,
+        readMinutes: news.readMinutes,
+        publishedAt,
+        relatedLessonSlug: news.relatedLessonSlug,
+      },
+      create: {
+        slug: news.slug,
+        category: news.category,
+        title: news.title,
+        summary: news.summary,
+        whatHappened: news.whatHappened,
+        whyItMatters: news.whyItMatters,
+        keyTakeaway: news.keyTakeaway,
+        readMinutes: news.readMinutes,
+        publishedAt,
+        relatedLessonSlug: news.relatedLessonSlug,
       },
     });
   }
