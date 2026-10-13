@@ -137,6 +137,7 @@ export const investingLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: Where will you keep your ₹1,00,000 for the next 5 years?',
+            hint: 'To protect purchasing power, your return must exceed the 6% rate of inflation.',
             options: [
               {
                 label: 'Cash in a home locker',
@@ -152,6 +153,7 @@ export const investingLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: A friend advises you to buy high-risk speculative crypto to "triple" the fund in 2 weeks.',
+            hint: 'Vital short-term education goals should never be risked on speculative gambles.',
             options: [
               {
                 label: 'Reject speculation and stick to your plan',

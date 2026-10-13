@@ -57,6 +57,7 @@ export const stocksLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: Rohan asks whether you want a fixed loan or an equity share in his business.',
+            hint: 'Think about whether you want unlimited growth upside or just a fixed capped interest payout.',
             options: [
               {
                 label: 'Take Equity (Shares)',
@@ -72,6 +73,7 @@ export const stocksLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: After year 1, profits jump 40%. Rohan asks what to do with the profit.',
+            hint: 'Reinvesting profits can compound the business size and make your 10% share worth much more.',
             options: [
               {
                 label: 'Reinvest in 3 more stalls',
@@ -149,6 +151,7 @@ export const stocksLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: Choose your order type.',
+            hint: 'A market order ensures execution right now at prevailing prices without waiting for price drops.',
             options: [
               {
                 label: 'Market Order',
@@ -164,6 +167,7 @@ export const stocksLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: Choose where your electronic shares will be deposited upon settlement.',
+            hint: 'In India, electronic shares are safely kept in a Demat account maintained by depositories.',
             options: [
               {
                 label: 'Demat Account',
@@ -240,6 +244,7 @@ export const stocksLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: How will the stock price likely react right at market open?',
+            hint: 'When earnings beat analyst forecasts strongly, buyer demand usually pushes prices upward.',
             options: [
               {
                 label: 'Jump higher due to strong demand',
@@ -255,6 +260,7 @@ export const stocksLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: Two months later, a brief rumor claims a supplier delay. The stock dips 4%. What is your prudent reaction?',
+            hint: 'Successful investors verify business fundamentals rather than panic selling on short-term noise.',
             options: [
               {
                 label: 'Check fundamentals and stay calm',

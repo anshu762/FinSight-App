@@ -49,6 +49,7 @@ export const cryptoLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: Traditional banks are closed for the weekend. What payment rails do you evaluate?',
+            hint: 'Regulated channels protect you against permanent loss even if settlement takes slightly longer.',
             options: [
               {
                 label: 'A regulated international remittance service or bank wire',
@@ -64,6 +65,7 @@ export const cryptoLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: You receive an unsolicited link claiming you can convert crypto with 0% tax in India. How do you respond?',
+            hint: 'In India, Virtual Digital Assets are subject to mandatory 30% tax and 1% TDS by law.',
             options: [
               {
                 label: 'Ignore the link and comply with Indian 30% VDA tax laws',
@@ -140,6 +142,7 @@ export const cryptoLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: An unauthorized hacker tries to alter student grades directly on one single server.',
+            hint: 'In a blockchain, thousands of independent nodes check every block hash and reject modifications.',
             options: [
               {
                 label: 'Rely on distributed nodes to reject the fraudulent hash',
@@ -155,6 +158,7 @@ export const cryptoLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: An employer wants to verify a job applicant’s degree credential.',
+            hint: 'Cryptographic hashes stored on a decentralized ledger provide tamper-proof public proof.',
             options: [
               {
                 label: 'Verify the student certificate hash against the public blockchain',
@@ -225,6 +229,7 @@ export const cryptoLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: The DM promises: "Deposit ₹5,000 today, get guaranteed ₹15,000 every Friday. 100% risk-free!" How do you react?',
+            hint: 'High guaranteed returns with "zero risk" is the classic signature of an investment scam.',
             options: [
               {
                 label: 'Block and report the account as an obvious Ponzi scam',
@@ -240,6 +245,7 @@ export const cryptoLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: A website asks you to enter your 12-word seed phrase to "claim a ₹10,000 airdrop". What should you do?',
+            hint: 'Your 12-word seed phrase gives complete control over your wallet; never share it with anyone or any website.',
             options: [
               {
                 label: 'Close the site immediately; never share your seed phrase',

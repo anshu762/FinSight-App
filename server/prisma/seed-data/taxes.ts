@@ -222,6 +222,7 @@ export const taxesLessons: LessonSeed[] = [
         steps: [
           {
             prompt: 'Step 1: The restaurant adds 5% GST (2.5% CGST + 2.5% SGST) and an optional 10% Service Charge. What do you do?',
+            hint: 'GST is a statutory government tax, whereas service charges are discretionary tips.',
             options: [
               {
                 label: 'Pay GST; request removal of mandatory Service Charge',
@@ -237,6 +238,7 @@ export const taxesLessons: LessonSeed[] = [
           },
           {
             prompt: 'Step 2: You receive your year-end bank statement showing ₹40,000 in FD interest. The bank did not deduct TDS. What is your duty?',
+            hint: 'Taxpayers are legally obligated to declare all earned income, even if TDS was not deducted by the payer.',
             options: [
               {
                 label: 'Report FD interest on your annual ITR and pay applicable tax',
