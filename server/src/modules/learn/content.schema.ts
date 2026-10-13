@@ -28,6 +28,7 @@ export const ChoiceOptionSchema = z.object({
 export const ChoiceStepSchema = z.object({
   prompt: z.string().min(5),
   options: z.array(ChoiceOptionSchema).min(2).max(3),
+  hint: z.string().min(5).optional(),
 });
 
 export const ChoiceScenarioSchema = z.object({
@@ -72,7 +73,7 @@ export const LessonContentSchema = z
     quiz: QuizSchema,
   })
   .refine(
-    (data) => {
+    (data: { cards: Array<{ body: string }> }) => {
       const totalWords = data.cards.reduce(
         (acc, card) => acc + card.body.trim().split(/\s+/).filter(Boolean).length,
         0
