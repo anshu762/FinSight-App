@@ -2,21 +2,37 @@ import React from 'react';
 import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText, Card } from '../ui';
+import { getCategoryTheme } from '../../lib/format';
+import { type NewsCategory } from '../../api/types';
 
 interface NewsPreviewCardProps {
   news: null | {
+    id?: string;
     title: string;
     summary: string;
     readMinutes: number;
-    category?: string;
+    category?: NewsCategory | string;
+    publishedAt?: string;
   };
   onPressNewsTab: () => void;
+  onPressArticle?: (id: string) => void;
 }
 
 export const NewsPreviewCard: React.FC<NewsPreviewCardProps> = ({
   news,
   onPressNewsTab,
+  onPressArticle,
 }) => {
+  const theme = news?.category ? getCategoryTheme(news.category) : null;
+
+  const handleCardPress = () => {
+    if (news?.id && onPressArticle) {
+      onPressArticle(news.id);
+    } else {
+      onPressNewsTab();
+    }
+  };
+
   return (
     <View className="mb-4">
       <View className="flex-row items-center justify-between mb-2.5">
@@ -25,7 +41,7 @@ export const NewsPreviewCard: React.FC<NewsPreviewCardProps> = ({
           onPress={onPressNewsTab}
           hitSlop={8}
           className="flex-row items-center gap-1 active:opacity-70"
-          accessibilityLabel="Explore finance news"
+          accessibilityLabel="Explore finance news tab"
         >
           <AppText variant="caption" className="text-primary font-bold">
             News Tab
@@ -50,17 +66,28 @@ export const NewsPreviewCard: React.FC<NewsPreviewCardProps> = ({
         </Card>
       ) : (
         <Pressable
-          onPress={onPressNewsTab}
-          className="active:opacity-90"
+          onPress={handleCardPress}
+          className="active:opacity-85"
+          accessibilityRole="button"
           accessibilityLabel={`Read news: ${news.title}`}
         >
           <Card className="p-4 bg-surface border-border">
             <View className="flex-row items-center gap-2 mb-1.5">
-              <View className="bg-amber-100 px-2 py-0.5 rounded-full">
-                <AppText variant="caption" className="text-amber-800 text-[10px] font-bold uppercase">
-                  {news.category || 'MARKET'}
-                </AppText>
-              </View>
+              {theme && (
+                <View
+                  style={{ backgroundColor: theme.bgLight, borderColor: theme.borderColor }}
+                  className="flex-row items-center px-2 py-0.5 rounded-full border"
+                >
+                  <AppText className="text-[10px] mr-1">{theme.emoji}</AppText>
+                  <AppText
+                    variant="caption"
+                    style={{ color: theme.textColor }}
+                    className="text-[10px] font-bold uppercase tracking-wide"
+                  >
+                    {theme.label}
+                  </AppText>
+                </View>
+              )}
               <AppText variant="caption" className="text-muted text-xs">
                 • {news.readMinutes} min read
               </AppText>
