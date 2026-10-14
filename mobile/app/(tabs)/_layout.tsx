@@ -4,7 +4,6 @@ import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 type TabRouteName = 'index' | 'learn' | 'portfolio' | 'news';
 
@@ -34,7 +33,7 @@ const TAB_CONFIG: Record<
   },
 };
 
-const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
+const CustomTabBar = ({ state, navigation }: { state: any; navigation: any }) => {
   const insets = useSafeAreaInsets();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
@@ -61,7 +60,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
       style={{ paddingBottom: Math.max(insets.bottom, 8) }}
       className="bg-surface border-t border-border flex-row items-center justify-around pt-2 shadow-lg"
     >
-      {state.routes.map((route, index) => {
+      {state.routes.map((route: any, index: number) => {
         const isFocused = state.index === index;
         const config = TAB_CONFIG[route.name as TabRouteName];
 

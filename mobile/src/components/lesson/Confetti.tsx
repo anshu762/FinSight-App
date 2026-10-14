@@ -90,7 +90,7 @@ export const Confetti: React.FC = () => {
   const particles = Array.from({ length: 36 });
 
   return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
       {particles.map((_, i) => (
         <Particle key={i} index={i} />
       ))}

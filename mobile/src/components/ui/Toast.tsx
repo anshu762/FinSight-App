@@ -44,7 +44,7 @@ export const Toast: React.FC = () => {
   const { visible, message, type, hideToast } = useToastStore();
   const insets = useSafeAreaInsets();
   const translateY = useSharedValue<number>(-120);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (visible) {

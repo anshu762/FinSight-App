@@ -7,12 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "finsight",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#4F46E5"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.finsight.app"
@@ -26,14 +20,25 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
       "@react-native-community/datetimepicker",
-      "expo-asset"
+      "expo-asset",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#4F46E5"
+        }
+      ],
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
