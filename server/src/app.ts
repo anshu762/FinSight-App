@@ -83,6 +83,26 @@ const dbHealthHandler = async (_req: Request, res: Response) => {
 app.get('/health/db', dbHealthHandler);
 app.get('/api/health/db', dbHealthHandler);
 
+app.get('/health/migrate', async (_req: Request, res: Response) => {
+  try {
+    const { execSync } = await import('child_process');
+    const output = execSync('npx prisma migrate deploy', { encoding: 'utf-8' });
+    res.json({ success: true, message: 'Migrations executed', output });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message, stdout: err.stdout, stderr: err.stderr });
+  }
+});
+
+app.get('/health/seed', async (_req: Request, res: Response) => {
+  try {
+    const { execSync } = await import('child_process');
+    const output = execSync('npm run seed', { encoding: 'utf-8' });
+    res.json({ success: true, message: 'Seed executed', output });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message, stdout: err.stdout, stderr: err.stderr });
+  }
+});
+
 // API Modules
 app.use('/api/auth', authRateLimiter, authRouter);
 app.use('/api/users', userRouter);
