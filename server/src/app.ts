@@ -86,8 +86,8 @@ app.get('/api/health/db', dbHealthHandler);
 app.get('/health/migrate', async (_req: Request, res: Response) => {
   try {
     const { execSync } = await import('child_process');
-    const output = execSync('npx prisma migrate deploy', { encoding: 'utf-8' });
-    res.json({ success: true, message: 'Migrations executed', output });
+    const output = execSync('npx prisma db push --accept-data-loss', { encoding: 'utf-8' });
+    res.json({ success: true, message: 'Schema pushed successfully', output });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message, stdout: err.stdout, stderr: err.stderr });
   }
@@ -96,7 +96,7 @@ app.get('/health/migrate', async (_req: Request, res: Response) => {
 app.get('/health/seed', async (_req: Request, res: Response) => {
   try {
     const { execSync } = await import('child_process');
-    const output = execSync('npm run seed', { encoding: 'utf-8' });
+    const output = execSync('npx tsx prisma/seed.ts', { encoding: 'utf-8' });
     res.json({ success: true, message: 'Seed executed', output });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message, stdout: err.stdout, stderr: err.stderr });
