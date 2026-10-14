@@ -13,6 +13,7 @@ import { authenticate } from './middleware/auth.js';
 import { authRateLimiter } from './middleware/rate-limiter.js';
 import { notFoundHandler } from './middleware/not-found.js';
 import { errorHandler } from './middleware/error-handler.js';
+import { prisma } from './lib/prisma.js';
 
 export const app = express();
 
@@ -52,6 +53,35 @@ const healthHandler = (_req: Request, res: Response) => {
 app.get('/', healthHandler);
 app.get('/health', healthHandler);
 app.get('/api/health', healthHandler);
+
+const dbHealthHandler = async (_req: Request, res: Response) => {
+  try {
+    const userCount = await prisma.user.count();
+    const topicCount = await prisma.topic.count();
+    res.status(200).json({
+      success: true,
+      data: {
+        status: 'ok',
+        message: 'Database connected and responsive',
+        userCount,
+        topicCount,
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'DATABASE_ERROR',
+        message: err?.message || 'Database connection error',
+        name: err?.name,
+      },
+    });
+  }
+};
+
+app.get('/health/db', dbHealthHandler);
+app.get('/api/health/db', dbHealthHandler);
 
 // API Modules
 app.use('/api/auth', authRateLimiter, authRouter);
