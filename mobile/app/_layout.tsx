@@ -6,7 +6,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../src/stores/auth';
 import { apiClient } from '../src/api/client';
@@ -69,13 +68,11 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={DefaultTheme}>
-          <View className="flex-1 bg-background">
-            <OfflineBanner />
-            <Toast />
-            <RootLayoutNav />
-          </View>
-        </ThemeProvider>
+        <View className="flex-1 bg-background">
+          <OfflineBanner />
+          <Toast />
+          <RootLayoutNav />
+        </View>
       </QueryClientProvider>
     </SafeAreaProvider>
   );
