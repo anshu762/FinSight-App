@@ -43,6 +43,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5a6002ec-a49d-468b-a9fe-a2f40a27b765"
+      }
+    },
+    "owner": "anubhavxsingh"
   }
 }
