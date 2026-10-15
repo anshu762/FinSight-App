@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Pressable } from 'react-native';
+import { View, ScrollView, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { AppText } from '../ui';
@@ -38,11 +38,13 @@ export const AssetFilterChips: React.FC<AssetFilterChipsProps> = ({
   };
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 20, gap: 8, paddingBottom: 12 }}
-    >
+    <View className="shrink-0 mb-1">
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 20, gap: 8, paddingBottom: 6 }}
+        style={{ flexGrow: 0 }}
+      >
       {FILTER_TABS.map((tab) => {
         const isSelected = selected === tab.value;
         const iconColor = isSelected ? '#FFFFFF' : '#64748B';
@@ -73,5 +75,6 @@ export const AssetFilterChips: React.FC<AssetFilterChipsProps> = ({
         );
       })}
     </ScrollView>
-  );
+  </View>
+);
 };

@@ -155,8 +155,9 @@ export default function ProfileScreen() {
         {/* Logout Button */}
         <Button
           title="Log Out"
-          variant="danger"
+          variant="primary"
           size="lg"
+          leftIcon={<Ionicons name="log-out-outline" size={18} color="#FFFFFF" />}
           onPress={() => setShowLogoutDialog(true)}
         />
       </ScrollView>
@@ -177,7 +178,6 @@ export default function ProfileScreen() {
         title="Log Out"
         message="Are you sure you want to log out? Your progress, XP, and streaks are safely stored."
         confirmTitle="Log Out"
-        destructive
         onConfirm={handleLogout}
         onCancel={() => setShowLogoutDialog(false)}
       />

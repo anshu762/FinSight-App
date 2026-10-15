@@ -62,8 +62,9 @@ export default function ExploreAssetsScreen() {
         </View>
       ) : (
         <ScrollView
+          className="flex-1"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 40 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 24 }}
           refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#4F46E5" colors={['#4F46E5']} />}
         >
           {assets.length === 0 ? (
