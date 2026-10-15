@@ -49,9 +49,9 @@ export const TopicHeroHeader: React.FC<TopicHeroHeaderProps> = ({
       <ProgressBar progress={progress} color={color} height={6} />
 
       {isAllDone && (
-        <View className="mt-2.5 flex-row items-center bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-          <Ionicons name="school" size={14} color="#065F46" style={{ marginRight: 4 }} />
-          <AppText variant="caption" className="text-emerald-800 font-bold text-[11px]">
+        <View className="mt-2.5 flex-row items-center bg-primary-soft px-2.5 py-1 rounded-lg border border-indigo-200">
+          <Ionicons name="school" size={14} color="#4F46E5" style={{ marginRight: 4 }} />
+          <AppText variant="caption" className="text-primary font-bold text-[11px]">
             Track Completed! +500 XP Topic Mastery Bonus Earned!
           </AppText>
         </View>

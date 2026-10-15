@@ -90,14 +90,14 @@ export const TradeOrderForm: React.FC<TradeOrderFormProps> = ({
         keyboardShouldPersistTaps="handled"
       >
         {/* Buy / Sell Toggle */}
-        <View className="flex-row bg-slate-100 p-1 rounded-2xl mb-4">
+        <View className="flex-row bg-slate-100 p-1 rounded-2xl mb-4 border border-border">
           <Pressable
             onPress={() => {
               setSide('BUY');
               onClearServerError();
             }}
             className={`flex-1 py-2.5 rounded-xl items-center justify-center ${
-              side === 'BUY' ? 'bg-emerald-600 shadow-sm' : 'active:opacity-75'
+              side === 'BUY' ? 'bg-primary shadow-sm' : 'active:opacity-75'
             }`}
           >
             <AppText
@@ -114,7 +114,7 @@ export const TradeOrderForm: React.FC<TradeOrderFormProps> = ({
               onClearServerError();
             }}
             className={`flex-1 py-2.5 rounded-xl items-center justify-center ${
-              side === 'SELL' ? 'bg-rose-600 shadow-sm' : 'active:opacity-75'
+              side === 'SELL' ? 'bg-primary shadow-sm' : 'active:opacity-75'
             }`}
           >
             <AppText
@@ -232,7 +232,7 @@ export const TradeOrderForm: React.FC<TradeOrderFormProps> = ({
 
         <Button
           title={`Confirm ${side} Order`}
-          variant={side === 'BUY' ? 'primary' : 'danger'}
+          variant="primary"
           loading={isSubmitting}
           disabled={!isFormValid || isSubmitting}
           onPress={() => onSubmit(side, numericQty)}

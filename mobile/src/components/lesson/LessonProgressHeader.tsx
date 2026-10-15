@@ -97,7 +97,6 @@ export const LessonProgressHeader: React.FC<LessonProgressHeaderProps> = ({
         message="Progress in this lesson will be lost if you leave now."
         confirmTitle="Leave"
         cancelTitle="Stay"
-        destructive
         onConfirm={handleConfirmLeave}
         onCancel={() => setShowConfirm(false)}
       />

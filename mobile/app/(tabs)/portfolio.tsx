@@ -117,7 +117,6 @@ export default function PortfolioTab() {
         message="This will reset your cash to ₹10,00,000 and clear all holdings. You can only reset once every 7 days."
         confirmText={isResetting ? 'Resetting...' : 'Yes, Reset to ₹10L'}
         cancelText="Cancel"
-        destructive
         onConfirm={handleConfirmReset}
         onCancel={() => setShowResetConfirm(false)}
       />

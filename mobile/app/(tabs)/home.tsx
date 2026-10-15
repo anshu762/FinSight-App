@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, RefreshControl, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Screen, Skeleton, ErrorState } from '../../src/components/ui';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import {
   HomeHeader,
   MarketTickerBar,
@@ -83,7 +84,6 @@ export default function HomeScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 24 }}
-
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -93,59 +93,61 @@ export default function HomeScreen() {
           />
         }
       >
-        {/* 1. Header with Avatar & Streak Tip */}
-        <HomeHeader
-          name={user.name}
-          streak={user.streak}
-          onAvatarPress={() => router.push('/profile')}
-        />
+        <Animated.View entering={FadeInDown.duration(380).springify().damping(16)}>
+          {/* 1. Header with Avatar & Streak Tip */}
+          <HomeHeader
+            name={user.name}
+            streak={user.streak}
+            onAvatarPress={() => router.push('/profile')}
+          />
 
-        {/* 2. Live Market Ticker */}
-        <MarketTickerBar />
+          {/* 2. Live Market Ticker */}
+          <MarketTickerBar />
 
-        {/* 3. Continue Learning Primary CTA */}
-        <ContinueLearningCard
-          continueLesson={continueLesson}
-          onPressLesson={handleLessonPress}
-          onPressLearnTab={() => router.push('/(tabs)/learn')}
-        />
+          {/* 3. Continue Learning Primary CTA */}
+          <ContinueLearningCard
+            continueLesson={continueLesson}
+            onPressLesson={handleLessonPress}
+            onPressLearnTab={() => router.push('/(tabs)/learn')}
+          />
 
-        {/* 3. Stats Row (Level Progress Bar, XP, Streak) */}
-        <StatsRow
-          xp={user.xp}
-          streak={user.streak}
-          longestStreak={user.longestStreak}
-          levelInfo={user.levelInfo}
-        />
+          {/* 4. Stats Row (Level Progress Bar, XP, Streak) */}
+          <StatsRow
+            xp={user.xp}
+            streak={user.streak}
+            longestStreak={user.longestStreak}
+            levelInfo={user.levelInfo}
+          />
 
-        {/* 4. Achievement Badges Scroll */}
-        <RecentBadgesSection
-          recentBadges={badges.recentEarned || badges.recent || []}
-          totalEarned={badges.earnedCount}
-          totalCount={badges.totalCount}
-          onSeeAllBadges={() => router.push('/badges')}
-        />
+          {/* 5. Achievement Badges Mastery Card */}
+          <RecentBadgesSection
+            recentBadges={badges.recentEarned || badges.recent || []}
+            totalEarned={badges.earnedCount}
+            totalCount={badges.totalCount}
+            onSeeAllBadges={() => router.push('/badges')}
+          />
 
-        {/* 5. 2x2 Equal-Height Topics Grid */}
-        <TopicsGrid
-          topics={topics}
-          onPressTopic={handleTopicPress}
-        />
+          {/* 6. 2x2 Equal-Height Topics Grid */}
+          <TopicsGrid
+            topics={topics}
+            onPressTopic={handleTopicPress}
+          />
 
-        {/* 6. Financial Pulse News Preview */}
-        <NewsPreviewCard
-          news={latestNews}
-          onPressNewsTab={() => router.push('/(tabs)/news')}
-          onPressArticle={(articleId) => router.push(`/news/${articleId}`)}
-        />
+          {/* 7. Financial Pulse News Preview */}
+          <NewsPreviewCard
+            news={latestNews}
+            onPressNewsTab={() => router.push('/(tabs)/news')}
+            onPressArticle={(articleId) => router.push(`/news/${articleId}`)}
+          />
 
-        {/* 7. Virtual Portfolio Simulator Shortcut */}
-        <PortfolioShortcutCard
-          cashBalance={user.cashBalance}
-          portfolioValue={portfolioValue}
-          portfolio={portfolio}
-          onLaunchSimulator={() => router.push('/(tabs)/portfolio')}
-        />
+          {/* 8. Virtual Portfolio Simulator Shortcut */}
+          <PortfolioShortcutCard
+            cashBalance={user.cashBalance}
+            portfolioValue={portfolioValue}
+            portfolio={portfolio}
+            onLaunchSimulator={() => router.push('/(tabs)/portfolio')}
+          />
+        </Animated.View>
       </ScrollView>
     </Screen>
   );

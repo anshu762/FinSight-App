@@ -1,6 +1,6 @@
 import '../global.css';
 import React, { useEffect, useState, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, LogBox } from 'react-native';
 import { Stack, useRouter, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -14,11 +14,12 @@ import { type UserProfile } from '../src/api/types';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { Toast, OfflineBanner } from '../src/components/ui';
 
-// Silence Reanimated strict mode logger warnings
+// Silence Reanimated strict mode logger warnings & LogBox popup subscription errors
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
+LogBox.ignoreAllLogs(true);
 
 export { ErrorBoundary } from 'expo-router';
 

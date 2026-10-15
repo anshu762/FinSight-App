@@ -47,8 +47,8 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
         >
           <Chip
             label={`${streak} day${streak === 1 ? '' : 's'}`}
-            variant="warning"
-            icon={<Ionicons name="flame" size={16} color="#F59E0B" />}
+            variant="primary"
+            icon={<Ionicons name="flame" size={16} color="#4F46E5" />}
           />
         </Pressable>
       </View>

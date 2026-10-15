@@ -76,9 +76,9 @@ export const LessonTimelineItem: React.FC<LessonTimelineItemProps> = ({
             </AppText>
 
             {isCompleted ? (
-              <View className="flex-row items-center bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                <Ionicons name="checkmark-done" size={11} color="#059669" />
-                <AppText variant="caption" className="text-emerald-700 font-bold text-[10px] ml-1">
+              <View className="flex-row items-center bg-primary-soft px-2 py-0.5 rounded-full border border-indigo-200">
+                <Ionicons name="checkmark-done" size={11} color="#4F46E5" />
+                <AppText variant="caption" className="text-primary font-bold text-[10px] ml-1">
                   +{lesson.xpEarned} XP
                 </AppText>
               </View>

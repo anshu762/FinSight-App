@@ -84,8 +84,8 @@ export default function ProfileScreen() {
           <Card className="flex-1 p-3.5 bg-surface border-border">
             <AppText variant="caption" className="text-muted">Active Streak</AppText>
             <View className="flex-row items-center gap-1.5 mt-1">
-              <Ionicons name="flame" size={22} color="#F59E0B" />
-              <AppText variant="h2" className="text-amber-500 font-bold">
+              <Ionicons name="flame" size={22} color="#4F46E5" />
+              <AppText variant="h2" className="text-primary font-bold">
                 {user?.streak ?? 0}
               </AppText>
             </View>
@@ -141,8 +141,8 @@ export default function ProfileScreen() {
             accessibilityLabel="Open badges screen"
           >
             <View className="flex-row items-center gap-3">
-              <View className="w-9 h-9 rounded-full bg-amber-50 items-center justify-center border border-amber-200">
-                <Ionicons name="trophy" size={16} color="#F59E0B" />
+              <View className="w-9 h-9 rounded-full bg-primary-soft items-center justify-center border border-indigo-200">
+                <Ionicons name="trophy" size={16} color="#4F46E5" />
               </View>
               <AppText variant="body" className="font-semibold text-sm">
                 Badges & Achievements

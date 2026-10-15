@@ -131,10 +131,10 @@ export default function AssetDetailScreen() {
           <View className="flex-1">
             <Button
               title="Sell"
-              variant="danger"
+              variant="secondary"
               disabled={!canSell}
               onPress={handleSellPress}
-              className="w-full"
+              className="w-full border-primary/30"
             />
             {!canSell ? (
               <AppText variant="caption" className="text-muted text-[10px] text-center mt-1">

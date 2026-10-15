@@ -60,9 +60,9 @@ export const StatsRow: React.FC<StatsRowProps> = ({
             <Card className="p-3.5 bg-surface border-border">
               <View className="flex-row items-center justify-between mb-1">
                 <AppText variant="caption" className="text-muted">Total XP</AppText>
-                <Ionicons name="flash" size={14} color="#F59E0B" />
+                <Ionicons name="flash" size={14} color="#4F46E5" />
               </View>
-              <AppText variant="h2" className="text-amber-500 font-bold">
+              <AppText variant="h2" className="text-primary font-bold">
                 {formattedXp}
               </AppText>
               <AppText variant="caption" className="text-muted mt-0.5">
@@ -80,9 +80,9 @@ export const StatsRow: React.FC<StatsRowProps> = ({
             <Card className="p-3.5 bg-surface border-border">
               <View className="flex-row items-center justify-between mb-1">
                 <AppText variant="caption" className="text-muted">Active Streak</AppText>
-                <Ionicons name="flame" size={16} color="#EF4444" />
+                <Ionicons name="flame" size={16} color="#4F46E5" />
               </View>
-              <AppText variant="h2" className="text-rose-500 font-bold">
+              <AppText variant="h2" className="text-primary font-bold">
                 {streak} {streak === 1 ? 'day' : 'days'}
               </AppText>
               <AppText variant="caption" className="text-muted mt-0.5">

@@ -154,7 +154,6 @@ export default function LessonScreen() {
         message="Your progress in this current session will not be saved until completed."
         confirmText="Leave"
         cancelText="Stay"
-        destructive
         onConfirm={() => { setShowExitDialog(false); router.back(); }}
         onCancel={() => setShowExitDialog(false)}
       />

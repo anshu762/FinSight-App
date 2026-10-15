@@ -49,17 +49,11 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           className="w-full max-w-[350px] bg-surface rounded-3xl p-6 border border-border shadow-2xl items-center"
         >
           {/* Header Icon Badge */}
-          <View
-            className={`w-14 h-14 rounded-2xl items-center justify-center mb-3.5 border ${
-              destructive
-                ? 'bg-rose-50 border-rose-200'
-                : 'bg-indigo-50 border-indigo-200'
-            }`}
-          >
+          <View className="w-14 h-14 rounded-2xl items-center justify-center mb-3.5 border bg-indigo-50 border-indigo-200">
             <Ionicons
-              name={destructive ? 'alert-circle-outline' : 'help-circle-outline'}
+              name="help-circle-outline"
               size={28}
-              color={destructive ? '#EF4444' : '#4F46E5'}
+              color="#4F46E5"
             />
           </View>
 
@@ -84,7 +78,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             />
             <Button
               title={resolvedConfirmTitle}
-              variant={destructive ? 'danger' : 'primary'}
+              variant="primary"
               size="md"
               onPress={onConfirm}
               className="flex-1"

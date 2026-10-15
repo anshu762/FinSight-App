@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppText, ModalSheet } from '../ui';
 import { type BadgeItem } from '../../api/types';
 
-import { BADGE_TIER_CONFIG } from './BadgeCard';
+import { BADGE_TIER_CONFIG, BadgeEmblem } from './BadgeEmblem';
 
 interface BadgeDetailModalProps {
   badge: BadgeItem | null;
@@ -36,23 +36,14 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
       subtitle={`Category: ${badge.category}`}
     >
       <View className="items-center py-2 gap-4">
-        {/* Big Icon */}
-        <View
-          style={{
-            backgroundColor: isEarned ? tier.bgSoft : '#F1F5F9',
-            borderColor: isEarned ? tier.border : '#E2E8F0',
-          }}
-          className="w-20 h-20 rounded-full items-center justify-center border-2 relative"
-        >
-          <AppText className={`text-4xl ${isEarned ? 'opacity-100' : 'opacity-30'}`}>
-            {badge.icon}
-          </AppText>
-          {!isEarned && (
-            <View className="absolute bg-slate-800/80 rounded-full p-2">
-              <Ionicons name="lock-closed" size={16} color="#FFFFFF" />
-            </View>
-          )}
-        </View>
+        {/* Big High-Definition Emblem */}
+        <BadgeEmblem
+          badgeKey={badge.key}
+          icon={badge.icon}
+          isEarned={isEarned}
+          size="lg"
+          showLock={true}
+        />
 
         {/* Badges Status Banner */}
         <View className="flex-row items-center gap-2">
@@ -71,20 +62,20 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
             </AppText>
           </View>
           <View
-            className={`flex-row items-center gap-1 px-3 py-1 rounded-full border ${
+            className={`flex-row items-center gap-1.5 px-3 py-1 rounded-full border ${
               isEarned
-                ? 'bg-emerald-50 border-emerald-200'
+                ? 'bg-primary-soft border-indigo-200'
                 : 'bg-slate-100 border-slate-200'
             }`}
           >
             <Ionicons
               name={isEarned ? 'checkmark-circle' : 'lock-closed'}
-              size={12}
-              color={isEarned ? '#047857' : '#64748B'}
+              size={13}
+              color={isEarned ? '#4F46E5' : '#64748B'}
             />
             <AppText
               className={`text-xs font-bold ${
-                isEarned ? 'text-emerald-700' : 'text-slate-500'
+                isEarned ? 'text-primary' : 'text-slate-500'
               }`}
             >
               {isEarned ? 'Unlocked' : 'Locked'}
