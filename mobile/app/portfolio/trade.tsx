@@ -64,10 +64,10 @@ export default function TradeScreen() {
         onSuccess: (result) => {
           setTradeSuccessResult(result);
           if (result.xpAwarded > 0) {
-            showToast(`🎉 First Trade Complete! +${result.xpAwarded} XP awarded!`, 'success');
+            showToast(`First Trade Complete! +${result.xpAwarded} XP awarded!`, 'success');
           }
           if (result.newBadges && result.newBadges.length > 0) {
-            showToast(`🏆 New Badge Unlocked: ${result.newBadges[0].name}!`, 'success');
+            showToast(`New Badge Unlocked: ${result.newBadges[0].name}!`, 'success');
           }
         },
         onError: (err) => {

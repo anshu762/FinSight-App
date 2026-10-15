@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { AppText } from '../ui/AppText';
 import { Button } from '../ui/Button';
 
@@ -40,7 +41,7 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
         <View className="w-full max-w-[340px] bg-surface rounded-card p-6 border border-border items-center shadow-xl">
           {/* Badge Glow */}
           <View className="w-20 h-20 rounded-full bg-amber-100 border-2 border-amber-300 items-center justify-center mb-4 shadow-sm">
-            <AppText className="text-4xl">👑</AppText>
+            <Ionicons name="trophy" size={38} color="#D97706" />
           </View>
 
           <View className="bg-amber-50 px-3 py-1 rounded-full border border-amber-200 mb-2">

@@ -62,6 +62,9 @@ export interface AgeGroupItem {
   age: string;
   desc: string;
   emoji: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+  bgSoft: string;
 }
 
 export const AGE_GROUPS: AgeGroupItem[] = AGE_GROUP_DEFINITIONS.map((d) => ({
@@ -70,5 +73,8 @@ export const AGE_GROUPS: AgeGroupItem[] = AGE_GROUP_DEFINITIONS.map((d) => ({
   age: d.ageRange,
   desc: d.description,
   emoji: d.emoji,
+  icon: d.icon,
+  color: d.color,
+  bgSoft: d.bgSoft,
 }));
 

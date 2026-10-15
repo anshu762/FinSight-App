@@ -23,10 +23,10 @@ export const StatsInfoModal: React.FC<StatsInfoModalProps> = ({
       onClose={onClose}
       title={
         activeInfo === 'level'
-          ? 'Level Progression 🏆'
+          ? 'Level Progression'
           : activeInfo === 'xp'
-          ? 'Experience Points (XP) ⚡'
-          : 'Login Streaks 🔥'
+          ? 'Experience Points (XP)'
+          : 'Login Streaks'
       }
       subtitle="FinSight Gamification Engine"
     >

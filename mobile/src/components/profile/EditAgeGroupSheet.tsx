@@ -42,7 +42,12 @@ export const EditAgeGroupSheet: React.FC<EditAgeGroupSheetProps> = ({
                   : 'border-border bg-surface'
               }`}
             >
-              <AppText className="text-2xl">{group.emoji}</AppText>
+              <View
+                style={{ backgroundColor: group.bgSoft }}
+                className="w-10 h-10 rounded-full items-center justify-center border border-slate-100"
+              >
+                <Ionicons name={group.icon} size={20} color={group.color} />
+              </View>
               <View className="flex-1">
                 <View className="flex-row items-center justify-between">
                   <AppText variant="body" className="font-bold text-sm">

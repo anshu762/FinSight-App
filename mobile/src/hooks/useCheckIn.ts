@@ -40,7 +40,7 @@ export const useCheckIn = () => {
       if (!res.alreadyCheckedIn && res.rewards && res.rewards.length > 0) {
         const totalXp = res.rewards.reduce((sum, r) => sum + (r.xp || r.amount || 0), 0);
         showToast(
-          `🔥 ${res.streak}-Day Streak! +${totalXp} XP earned`,
+          `${res.streak}-Day Streak! +${totalXp} XP earned`,
           'success'
         );
         invalidateHome();

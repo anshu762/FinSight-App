@@ -19,7 +19,7 @@ export default function TopicDetailScreen() {
     order: number
   ) => {
     if (status === 'locked') {
-      showToast(`🔒 Complete Level ${order - 1} first to unlock this lesson!`, 'warning');
+      showToast(`Complete Level ${order - 1} first to unlock this lesson!`, 'warning');
       return;
     }
     router.push(`/lesson/${lessonId}`);

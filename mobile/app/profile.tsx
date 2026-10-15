@@ -56,7 +56,7 @@ export default function ProfileScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 24 }}
       >
         {/* User Card */}
         <Card className="p-5 bg-surface border-border items-center mb-4">
@@ -83,9 +83,12 @@ export default function ProfileScreen() {
 
           <Card className="flex-1 p-3.5 bg-surface border-border">
             <AppText variant="caption" className="text-muted">Active Streak</AppText>
-            <AppText variant="h2" className="text-amber-500 font-bold mt-1">
-              🔥 {user?.streak ?? 0}
-            </AppText>
+            <View className="flex-row items-center gap-1.5 mt-1">
+              <Ionicons name="flame" size={22} color="#F59E0B" />
+              <AppText variant="h2" className="text-amber-500 font-bold">
+                {user?.streak ?? 0}
+              </AppText>
+            </View>
             <AppText variant="caption" className="text-muted text-xs mt-0.5">
               Record: {user?.longestStreak ?? 0} days
             </AppText>
@@ -109,7 +112,16 @@ export default function ProfileScreen() {
           </View>
 
           <View className="flex-row items-center gap-3 bg-slate-50 border border-border rounded-xl p-3">
-            <AppText className="text-2xl">{currentAgeGroupInfo?.emoji || '🎯'}</AppText>
+            <View
+              style={{ backgroundColor: currentAgeGroupInfo?.bgSoft || '#EFF6FF' }}
+              className="w-11 h-11 rounded-full items-center justify-center border border-slate-100"
+            >
+              <Ionicons
+                name={currentAgeGroupInfo?.icon || 'school-outline'}
+                size={22}
+                color={currentAgeGroupInfo?.color || '#4F46E5'}
+              />
+            </View>
             <View className="flex-1">
               <AppText variant="body" className="font-bold text-sm">
                 {currentAgeGroupInfo?.title || 'Not Selected'} ({currentAgeGroupInfo?.age || ''})

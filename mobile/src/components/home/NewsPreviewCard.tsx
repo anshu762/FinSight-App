@@ -78,7 +78,7 @@ export const NewsPreviewCard: React.FC<NewsPreviewCardProps> = ({
                   style={{ backgroundColor: theme.bgLight, borderColor: theme.borderColor }}
                   className="flex-row items-center px-2 py-0.5 rounded-full border"
                 >
-                  <AppText className="text-[10px] mr-1">{theme.emoji}</AppText>
+                  <Ionicons name={theme.icon} size={11} color={theme.textColor} style={{ marginRight: 4 }} />
                   <AppText
                     variant="caption"
                     style={{ color: theme.textColor }}

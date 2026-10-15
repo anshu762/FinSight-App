@@ -34,7 +34,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
               Welcome back
             </AppText>
             <AppText variant="h2" numberOfLines={1}>
-              Hi, {firstName} 👋
+              Hi, {firstName}
             </AppText>
           </View>
         </View>
@@ -56,7 +56,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
       <ModalSheet
         visible={showStreakModal}
         onClose={() => setShowStreakModal(false)}
-        title="Daily Learning Streak 🔥"
+        title="Daily Learning Streak"
         subtitle="Consistency is the key to mastering money"
       >
         <View className="gap-3 py-2">

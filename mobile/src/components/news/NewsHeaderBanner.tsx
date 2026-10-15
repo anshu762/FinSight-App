@@ -30,7 +30,7 @@ export const NewsHeaderBanner: React.FC<NewsHeaderBannerProps> = ({
           style={{ backgroundColor: theme.color }}
           className="flex-row items-center px-2.5 py-1 rounded-full"
         >
-          <AppText className="text-xs mr-1">{theme.emoji}</AppText>
+          <Ionicons name={theme.icon} size={12} color="#FFFFFF" style={{ marginRight: 4 }} />
           <AppText variant="caption" className="text-white font-bold text-[11px] uppercase tracking-wider">
             {theme.label} Hub
           </AppText>

@@ -78,7 +78,7 @@ export default function NewsTab() {
         <FlatList<NewsArticleItem>
           data={articles}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 6, paddingBottom: 100 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24 }}
 
           showsVerticalScrollIndicator={false}
           refreshControl={

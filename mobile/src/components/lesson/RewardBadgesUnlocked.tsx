@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { AppText, Card } from '../ui';
 export interface UnlockedBadge {
   id: string;
@@ -23,7 +24,7 @@ export const RewardBadgesUnlocked: React.FC<RewardBadgesUnlockedProps> = ({ badg
   return (
     <Card className="p-4 bg-amber-50/70 border-amber-200 mb-4 w-full">
       <View className="flex-row items-center gap-1.5 mb-2.5">
-        <AppText className="text-base">🏆</AppText>
+        <Ionicons name="ribbon-outline" size={16} color="#B45309" />
         <AppText variant="caption" className="font-bold text-amber-800 uppercase text-[11px]">
           New Badges Unlocked!
         </AppText>

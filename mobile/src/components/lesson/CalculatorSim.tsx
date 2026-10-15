@@ -82,7 +82,7 @@ export const CalculatorSim: React.FC<CalculatorSimProps> = ({
       >
         <Card className="p-4 bg-surface border-border mb-4">
           <View className="flex-row items-center gap-2 mb-1.5">
-            <AppText className="text-xl">🧮</AppText>
+            <Ionicons name="calculator-outline" size={20} color="#4F46E5" />
             <AppText variant="h3" className="text-lg font-bold text-text">
               {simulation.title}
             </AppText>

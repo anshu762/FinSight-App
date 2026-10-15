@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { AppText, Card, ProgressBar } from '../ui';
 
 interface TopicHeroHeaderProps {
@@ -49,7 +50,7 @@ export const TopicHeroHeader: React.FC<TopicHeroHeaderProps> = ({
 
       {isAllDone && (
         <View className="mt-2.5 flex-row items-center bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-          <AppText className="text-xs mr-1">🎓</AppText>
+          <Ionicons name="school" size={14} color="#065F46" style={{ marginRight: 4 }} />
           <AppText variant="caption" className="text-emerald-800 font-bold text-[11px]">
             Track Completed! +500 XP Topic Mastery Bonus Earned!
           </AppText>

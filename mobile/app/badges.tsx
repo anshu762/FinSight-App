@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import {
   Screen,
   ScreenHeader,
@@ -14,15 +15,15 @@ import { useBadges } from '../src/hooks/useBadges';
 import { type BadgeItem } from '../src/api/types';
 
 const CATEGORY_TITLES: Record<string, string> = {
-  learn: '📚 Learning & Mastery',
-  LEARNING: '📚 Learning & Mastery',
-  streak: '🔥 Streak & Consistency',
-  STREAK: '🔥 Streak & Consistency',
-  portfolio: '💼 Portfolio & Trading',
-  trading: '💼 Portfolio & Trading',
-  TRADING: '💼 Portfolio & Trading',
-  news: '📰 Market Intelligence',
-  NEWS: '📰 Market Intelligence',
+  learn: 'Learning & Mastery',
+  LEARNING: 'Learning & Mastery',
+  streak: 'Streak & Consistency',
+  STREAK: 'Streak & Consistency',
+  portfolio: 'Portfolio & Trading',
+  trading: 'Portfolio & Trading',
+  TRADING: 'Portfolio & Trading',
+  news: 'Market Intelligence',
+  NEWS: 'Market Intelligence',
 };
 
 export default function BadgesScreen() {
@@ -75,7 +76,7 @@ export default function BadgesScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 24 }}
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -97,7 +98,7 @@ export default function BadgesScreen() {
               </AppText>
             </View>
             <View className="w-12 h-12 rounded-full bg-amber-50 items-center justify-center border border-amber-200">
-              <AppText className="text-2xl">🏆</AppText>
+              <Ionicons name="trophy" size={24} color="#D97706" />
             </View>
           </View>
           <ProgressBar progress={progressRatio} color="#F59E0B" height={6} />

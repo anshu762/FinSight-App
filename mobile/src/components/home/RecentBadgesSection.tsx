@@ -47,7 +47,7 @@ export const RecentBadgesSection: React.FC<RecentBadgesSectionProps> = ({
       {recentBadges.length === 0 ? (
         <Card className="p-4 bg-surface border-border flex-row items-center gap-3 rounded-2xl">
           <View className="w-12 h-12 rounded-full bg-indigo-50 items-center justify-center">
-            <AppText className="text-2xl">🎯</AppText>
+            <Ionicons name="ribbon-outline" size={24} color="#4F46E5" />
           </View>
           <View className="flex-1">
             <AppText variant="body" className="font-semibold text-text">

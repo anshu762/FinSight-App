@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, type TextInput } from 'react-native';
+import { View, Pressable, type TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardScreen, ScreenHeader, Input, Button, AppText } from '../../src/components/ui';
@@ -136,16 +136,19 @@ export default function LoginScreen() {
         className="mb-4 shadow-sm"
       />
 
-      <View className="flex-row justify-center items-center py-2">
+      <View className="flex-row justify-center items-center mt-2 mb-4">
         <AppText variant="body" className="text-sm text-muted">
-          Don't have an account?{' '}
+          Don't have an account?
         </AppText>
-        <Button
-          title="Sign Up"
-          variant="ghost"
-          size="sm"
+        <Pressable
           onPress={() => router.replace('/(auth)/register')}
-        />
+          hitSlop={8}
+          className="ml-1.5 py-1 active:opacity-70"
+        >
+          <AppText className="text-sm font-bold text-primary">
+            Sign Up
+          </AppText>
+        </Pressable>
       </View>
     </KeyboardScreen>
   );

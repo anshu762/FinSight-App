@@ -23,11 +23,11 @@ export default function ArticleDetailScreen() {
     markRead.mutate(id, {
       onSuccess: (res) => {
         if (res.xpEarned > 0) {
-          showToast(`🎉 +${res.xpEarned} XP Earned! Finance news read.`, 'success');
+          showToast(`+${res.xpEarned} XP Earned! Finance news read.`, 'success');
         }
         if (res.newBadges?.length) {
           res.newBadges.forEach((b) => {
-            showToast(`🏆 Badge Unlocked: ${b.name}!`, 'success');
+            showToast(`Badge Unlocked: ${b.name}!`, 'success');
           });
         }
       },

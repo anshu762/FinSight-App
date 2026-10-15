@@ -72,9 +72,10 @@ export const TradeSuccessReceipt: React.FC<TradeSuccessReceiptProps> = ({
         </View>
 
         {xpAwarded > 0 && (
-          <View className="w-full bg-indigo-50 border border-indigo-200 rounded-xl p-3 items-center mb-3">
+          <View className="w-full bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex-row items-center justify-center gap-1.5 mb-3">
+            <Ionicons name="sparkles" size={14} color="#4F46E5" />
             <AppText variant="caption" className="text-primary font-bold text-xs">
-              🎉 +{xpAwarded} XP Earned for Trading!
+              +{xpAwarded} XP Earned for Trading!
             </AppText>
           </View>
         )}

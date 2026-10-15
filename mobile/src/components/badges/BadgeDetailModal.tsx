@@ -71,18 +71,23 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
             </AppText>
           </View>
           <View
-            className={`px-3 py-1 rounded-full border ${
+            className={`flex-row items-center gap-1 px-3 py-1 rounded-full border ${
               isEarned
                 ? 'bg-emerald-50 border-emerald-200'
                 : 'bg-slate-100 border-slate-200'
             }`}
           >
+            <Ionicons
+              name={isEarned ? 'checkmark-circle' : 'lock-closed'}
+              size={12}
+              color={isEarned ? '#047857' : '#64748B'}
+            />
             <AppText
               className={`text-xs font-bold ${
                 isEarned ? 'text-emerald-700' : 'text-slate-500'
               }`}
             >
-              {isEarned ? '✓ Unlocked' : '🔒 Locked'}
+              {isEarned ? 'Unlocked' : 'Locked'}
             </AppText>
           </View>
         </View>

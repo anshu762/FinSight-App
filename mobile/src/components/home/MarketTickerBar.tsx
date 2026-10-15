@@ -20,7 +20,7 @@ export const MarketTickerBar: React.FC = () => {
     <View className="mb-4">
       <View className="flex-row items-center justify-between mb-2">
         <View className="flex-row items-center gap-1.5">
-          <View className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <View className="w-2 h-2 rounded-full bg-emerald-500" />
           <AppText variant="caption" className="font-bold text-xs text-text uppercase tracking-wider">
             Markets Today
           </AppText>
@@ -28,11 +28,12 @@ export const MarketTickerBar: React.FC = () => {
         <Pressable
           onPress={() => router.push('/portfolio/explore')}
           hitSlop={6}
-          className="active:opacity-75"
+          className="flex-row items-center gap-1 active:opacity-75"
         >
           <AppText variant="caption" className="text-primary font-bold text-xs">
-            See All &rarr;
+            See All
           </AppText>
+          <Ionicons name="arrow-forward" size={12} color="#4F46E5" />
         </Pressable>
       </View>
 
@@ -47,24 +48,24 @@ export const MarketTickerBar: React.FC = () => {
             <Pressable
               key={item.id}
               onPress={() => router.push(`/portfolio/${item.id}`)}
-              className="bg-surface border border-border rounded-2xl p-3 min-w-[130px] active:scale-95 shadow-xs"
+              className="bg-surface border border-border rounded-2xl p-3 w-[155px] active:scale-95 shadow-xs"
             >
-              <View className="flex-row items-center justify-between mb-1">
-                <AppText className="font-extrabold text-xs text-text">
+              <View className="flex-row items-center justify-between mb-0.5">
+                <AppText numberOfLines={1} className="font-extrabold text-xs text-text flex-1 mr-1">
                   {item.symbol}
                 </AppText>
                 <View
-                  className={`flex-row items-center px-1.5 py-0.5 rounded-full ${
-                    isPositive ? 'bg-emerald-50' : 'bg-rose-50'
+                  className={`flex-row items-center px-1.5 py-0.5 rounded-full border ${
+                    isPositive ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'
                   }`}
                 >
                   <Ionicons
                     name={isPositive ? 'caret-up' : 'caret-down'}
-                    size={10}
+                    size={9}
                     color={isPositive ? '#10B981' : '#EF4444'}
                   />
                   <AppText
-                    className={`text-[10px] font-bold ${
+                    className={`text-[10px] font-bold ml-0.5 ${
                       isPositive ? 'text-emerald-700' : 'text-rose-700'
                     }`}
                   >
@@ -73,7 +74,11 @@ export const MarketTickerBar: React.FC = () => {
                 </View>
               </View>
 
-              <AppText variant="caption" className="text-text font-bold text-sm">
+              <AppText numberOfLines={1} className="text-[11px] text-muted font-medium mb-1.5">
+                {item.name}
+              </AppText>
+
+              <AppText className="text-sm font-extrabold text-text">
                 {formatIndianCurrency(item.currentPrice)}
               </AppText>
             </Pressable>

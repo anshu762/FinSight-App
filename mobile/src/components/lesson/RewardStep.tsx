@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { AppText, Button, Card, ProgressBar, Skeleton, ErrorState } from '../ui';
 import { Confetti } from './Confetti';
 import { LevelUpModal } from './LevelUpModal';
@@ -86,7 +87,7 @@ export const RewardStep: React.FC<RewardStepProps> = ({
       <Confetti />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 24, alignItems: 'center' }}>
         <View className="w-20 h-20 rounded-full bg-emerald-100 border border-emerald-300 items-center justify-center mb-3">
-          <AppText className="text-4xl">🎉</AppText>
+          <Ionicons name="checkmark-done" size={40} color="#059669" />
         </View>
 
         <AppText variant="title" className="text-2xl font-bold text-text text-center mb-1">

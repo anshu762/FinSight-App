@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, View, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { AppText } from '../ui';
 import { type NewsCategory } from '../../api/types';
@@ -7,15 +8,15 @@ import { type NewsCategory } from '../../api/types';
 export interface CategoryOption {
   key: NewsCategory | 'ALL';
   label: string;
-  emoji: string;
+  icon: keyof typeof Ionicons.glyphMap;
 }
 
 const CATEGORIES: CategoryOption[] = [
-  { key: 'ALL', label: 'All', emoji: '📰' },
-  { key: 'STOCK_MARKET', label: 'Stocks', emoji: '📈' },
-  { key: 'INVESTING', label: 'Investing', emoji: '🌱' },
-  { key: 'TAXES', label: 'Taxes', emoji: '🧾' },
-  { key: 'CRYPTO', label: 'Crypto', emoji: '🪙' },
+  { key: 'ALL', label: 'All', icon: 'newspaper-outline' },
+  { key: 'STOCK_MARKET', label: 'Stocks', icon: 'trending-up-outline' },
+  { key: 'INVESTING', label: 'Investing', icon: 'wallet-outline' },
+  { key: 'TAXES', label: 'Taxes', icon: 'receipt-outline' },
+  { key: 'CRYPTO', label: 'Crypto', icon: 'swap-horizontal-outline' },
 ];
 
 interface NewsCategoryChipsProps {
@@ -47,22 +48,23 @@ export const NewsCategoryChips: React.FC<NewsCategoryChipsProps> = ({
       >
         {CATEGORIES.map((cat) => {
           const isSelected = selected === cat.key;
+          const iconColor = isSelected ? '#FFFFFF' : '#64748B';
           return (
             <Pressable
               key={cat.key}
               onPress={() => handlePress(cat.key)}
               hitSlop={6}
-              className={`flex-row items-center px-4 py-2 rounded-full border min-h-[38px] active:scale-95 shadow-xs ${
+              style={{ height: 36, borderRadius: 18 }}
+              className={`flex-row items-center justify-center px-3.5 border active:opacity-85 ${
                 isSelected
-                  ? 'bg-primary border-primary shadow-sm'
+                  ? 'bg-primary border-primary shadow-xs'
                   : 'bg-slate-100/90 border-slate-200/90'
               }`}
-              style={{ borderRadius: 9999 }}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
               accessibilityLabel={`Filter by ${cat.label}`}
             >
-              <AppText className="text-xs mr-1.5">{cat.emoji}</AppText>
+              <Ionicons name={cat.icon} size={15} color={iconColor} style={{ marginRight: 6 }} />
               <AppText
                 variant="caption"
                 className={`font-semibold text-xs ${

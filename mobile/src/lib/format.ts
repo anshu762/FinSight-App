@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { type NewsCategory } from '../api/types';
 
 /**
@@ -43,6 +44,7 @@ export const formatRelativeTime = (dateInput: string | Date): string => {
 export interface CategoryTheme {
   label: string;
   emoji: string;
+  icon: keyof typeof Ionicons.glyphMap;
   color: string;
   bgLight: string;
   borderColor: string;
@@ -55,6 +57,7 @@ export const getCategoryTheme = (category: NewsCategory | string): CategoryTheme
       return {
         label: 'Stocks',
         emoji: '📈',
+        icon: 'trending-up-outline',
         color: '#3B82F6',
         bgLight: '#EFF6FF',
         borderColor: '#BFDBFE',
@@ -64,6 +67,7 @@ export const getCategoryTheme = (category: NewsCategory | string): CategoryTheme
       return {
         label: 'Investing',
         emoji: '🌱',
+        icon: 'leaf-outline',
         color: '#10B981',
         bgLight: '#ECFDF5',
         borderColor: '#A7F3D0',
@@ -73,6 +77,7 @@ export const getCategoryTheme = (category: NewsCategory | string): CategoryTheme
       return {
         label: 'Taxes',
         emoji: '🧾',
+        icon: 'receipt-outline',
         color: '#F59E0B',
         bgLight: '#FFFBEB',
         borderColor: '#FDE68A',
@@ -82,6 +87,7 @@ export const getCategoryTheme = (category: NewsCategory | string): CategoryTheme
       return {
         label: 'Crypto',
         emoji: '🪙',
+        icon: 'swap-horizontal-outline',
         color: '#8B5CF6',
         bgLight: '#F5F3FF',
         borderColor: '#DDD6FE',
@@ -91,6 +97,7 @@ export const getCategoryTheme = (category: NewsCategory | string): CategoryTheme
       return {
         label: 'General',
         emoji: '📰',
+        icon: 'newspaper-outline',
         color: '#4F46E5',
         bgLight: '#EEF2FF',
         borderColor: '#C7D2FE',

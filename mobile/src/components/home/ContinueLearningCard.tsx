@@ -20,7 +20,7 @@ export const ContinueLearningCard: React.FC<ContinueLearningCardProps> = ({
       <View className="bg-primary rounded-card p-5 mb-4 shadow-sm">
         <View className="flex-row items-center justify-between mb-2">
           <View className="flex-row items-center gap-2">
-            <AppText className="text-xl">🎉</AppText>
+            <Ionicons name="checkmark-done-circle" size={22} color="#FFFFFF" />
             <AppText className="text-white font-bold text-base">
               All Lessons Completed!
             </AppText>
@@ -42,7 +42,6 @@ export const ContinueLearningCard: React.FC<ContinueLearningCardProps> = ({
   }
 
   const topicTitle = continueLesson.topic?.title || continueLesson.topicTitle || 'Finance Basics';
-  const topicIcon = continueLesson.topic?.icon || '🌱';
 
   return (
     <Pressable
@@ -52,7 +51,7 @@ export const ContinueLearningCard: React.FC<ContinueLearningCardProps> = ({
     >
       <View className="flex-row items-center justify-between mb-2">
         <View className="flex-row items-center gap-1.5 bg-primary-dark/40 px-2.5 py-1 rounded-full">
-          <AppText className="text-xs">{topicIcon}</AppText>
+          <Ionicons name="book-outline" size={12} color="#E0E7FF" />
           <AppText className="text-indigo-100 text-xs font-semibold uppercase tracking-wider">
             {topicTitle}
           </AppText>

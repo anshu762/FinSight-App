@@ -82,7 +82,7 @@ export default function HomeScreen() {
     <Screen paddingHorizontal={false}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 110 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 24 }}
 
         refreshControl={
           <RefreshControl

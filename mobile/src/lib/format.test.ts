@@ -38,6 +38,7 @@ describe('getCategoryTheme', () => {
     const theme = getCategoryTheme('STOCK_MARKET');
     expect(theme.label).toBe('Stocks');
     expect(theme.emoji).toBe('📈');
+    expect(theme.icon).toBe('trending-up-outline');
     expect(theme.color).toBe('#3B82F6');
   });
 
@@ -45,6 +46,7 @@ describe('getCategoryTheme', () => {
     const theme = getCategoryTheme('INVESTING');
     expect(theme.label).toBe('Investing');
     expect(theme.emoji).toBe('🌱');
+    expect(theme.icon).toBe('leaf-outline');
     expect(theme.color).toBe('#10B981');
   });
 
@@ -52,6 +54,7 @@ describe('getCategoryTheme', () => {
     const theme = getCategoryTheme('TAXES');
     expect(theme.label).toBe('Taxes');
     expect(theme.emoji).toBe('🧾');
+    expect(theme.icon).toBe('receipt-outline');
     expect(theme.color).toBe('#F59E0B');
   });
 
@@ -59,6 +62,7 @@ describe('getCategoryTheme', () => {
     const theme = getCategoryTheme('CRYPTO');
     expect(theme.label).toBe('Crypto');
     expect(theme.emoji).toBe('🪙');
+    expect(theme.icon).toBe('swap-horizontal-outline');
     expect(theme.color).toBe('#8B5CF6');
   });
 });
