@@ -37,13 +37,13 @@ export const PortfolioShortcutCard: React.FC<PortfolioShortcutCardProps> = ({
         </View>
       </View>
 
-      <Card className="p-4 bg-surface border-border">
+      <Card className="p-4 bg-surface border-border rounded-3xl shadow-sm">
         <View className="flex-row items-center justify-between mb-3">
           <View>
-            <AppText variant="caption" className="text-muted">
+            <AppText variant="caption" className="text-muted font-medium">
               Total Portfolio Value
             </AppText>
-            <AppText variant="h2" className="text-text font-bold mt-0.5">
+            <AppText variant="h2" className="text-text font-extrabold mt-0.5 text-2xl">
               {formatIndianCurrency(displayAmount)}
             </AppText>
             {portfolio ? (
@@ -65,18 +65,18 @@ export const PortfolioShortcutCard: React.FC<PortfolioShortcutCardProps> = ({
               </View>
             ) : null}
           </View>
-          <View className="w-12 h-12 rounded-full bg-emerald-100/80 items-center justify-center">
-            <Ionicons name="trending-up" size={24} color="#10B981" />
+          <View className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200/80 items-center justify-center">
+            <Ionicons name="pie-chart" size={24} color="#4F46E5" />
           </View>
         </View>
 
         <Pressable
           onPress={onLaunchSimulator}
-          className="bg-emerald-600 rounded-button h-11 items-center justify-center flex-row gap-2 active:bg-emerald-700"
+          className="bg-primary rounded-2xl h-[46px] items-center justify-center flex-row gap-2 active:bg-primary-dark shadow-xs"
           accessibilityLabel="Launch virtual trading simulator"
         >
-          <Ionicons name="pie-chart" size={16} color="#FFFFFF" />
-          <AppText className="text-white font-bold text-sm">Open Simulator</AppText>
+          <Ionicons name="trending-up" size={17} color="#FFFFFF" />
+          <AppText className="text-white font-bold text-sm">Open Simulator &rarr;</AppText>
         </Pressable>
       </Card>
     </View>

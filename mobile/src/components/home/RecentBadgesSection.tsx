@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppText, Card } from '../ui';
 import { type BadgeItem } from '../../api/types';
 
+import { BADGE_TIER_CONFIG } from '../badges/BadgeCard';
+
 interface RecentBadgesSectionProps {
   recentBadges?: BadgeItem[];
   totalEarned: number;
@@ -43,7 +45,7 @@ export const RecentBadgesSection: React.FC<RecentBadgesSectionProps> = ({
       </View>
 
       {recentBadges.length === 0 ? (
-        <Card className="p-4 bg-surface border-border flex-row items-center gap-3">
+        <Card className="p-4 bg-surface border-border flex-row items-center gap-3 rounded-2xl">
           <View className="w-12 h-12 rounded-full bg-indigo-50 items-center justify-center">
             <AppText className="text-2xl">🎯</AppText>
           </View>
@@ -63,30 +65,41 @@ export const RecentBadgesSection: React.FC<RecentBadgesSectionProps> = ({
           className="-mx-5 px-5"
         >
           <View className="flex-row gap-3 py-1">
-            {recentBadges.map((badge) => (
-              <Pressable
-                key={badge.id}
-                onPress={onSeeAllBadges}
-                className="w-28 bg-surface border border-border rounded-card p-3 items-center justify-center active:opacity-80 shadow-sm"
-              >
-                <View className="w-12 h-12 rounded-full bg-slate-50 items-center justify-center mb-1.5">
-                  <AppText className="text-2xl">{badge.icon}</AppText>
-                </View>
-                <AppText
-                  variant="caption"
-                  numberOfLines={1}
-                  className="font-bold text-center text-text"
+            {recentBadges.map((badge) => {
+              const tier = BADGE_TIER_CONFIG[badge.rarity] || BADGE_TIER_CONFIG.COMMON;
+              return (
+                <Pressable
+                  key={badge.id}
+                  onPress={onSeeAllBadges}
+                  className="w-28 bg-surface border border-border rounded-2xl p-3 items-center justify-center active:scale-95 shadow-xs"
                 >
-                  {badge.name}
-                </AppText>
-                <AppText
-                  variant="caption"
-                  className="text-[10px] text-primary uppercase font-bold tracking-wider mt-0.5"
-                >
-                  {badge.rarity}
-                </AppText>
-              </Pressable>
-            ))}
+                  <View
+                    style={{ backgroundColor: tier.bgSoft, borderColor: tier.border }}
+                    className="w-12 h-12 rounded-full border items-center justify-center mb-1.5"
+                  >
+                    <AppText className="text-2xl">{badge.icon}</AppText>
+                  </View>
+                  <AppText
+                    variant="caption"
+                    numberOfLines={1}
+                    className="font-bold text-center text-text text-xs"
+                  >
+                    {badge.name}
+                  </AppText>
+                  <View
+                    style={{ backgroundColor: tier.bgSoft, borderColor: tier.border }}
+                    className="px-2 py-0.2 rounded-full border mt-1"
+                  >
+                    <AppText
+                      style={{ color: tier.color }}
+                      className="text-[9px] uppercase font-bold tracking-wider"
+                    >
+                      {tier.label}
+                    </AppText>
+                  </View>
+                </Pressable>
+              );
+            })}
 
             {/* "+" Card */}
             <Pressable

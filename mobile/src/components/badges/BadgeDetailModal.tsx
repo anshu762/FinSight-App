@@ -4,17 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppText, ModalSheet } from '../ui';
 import { type BadgeItem } from '../../api/types';
 
+import { BADGE_TIER_CONFIG } from './BadgeCard';
+
 interface BadgeDetailModalProps {
   badge: BadgeItem | null;
   onClose: () => void;
 }
-
-const RARITY_COLORS: Record<string, string> = {
-  COMMON: '#64748B',
-  UNCOMMON: '#10B981',
-  RARE: '#3B82F6',
-  LEGENDARY: '#F59E0B',
-};
 
 export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
   badge,
@@ -23,7 +18,7 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
   if (!badge) return null;
 
   const isEarned = badge.isEarned;
-  const rarityColor = RARITY_COLORS[badge.rarity] || '#64748B';
+  const tier = BADGE_TIER_CONFIG[badge.rarity] || BADGE_TIER_CONFIG.COMMON;
 
   const formattedDate = badge.earnedAt
     ? new Date(badge.earnedAt).toLocaleDateString('en-IN', {
@@ -44,8 +39,8 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
         {/* Big Icon */}
         <View
           style={{
-            backgroundColor: isEarned ? `${rarityColor}18` : '#F1F5F9',
-            borderColor: isEarned ? `${rarityColor}50` : '#E2E8F0',
+            backgroundColor: isEarned ? tier.bgSoft : '#F1F5F9',
+            borderColor: isEarned ? tier.border : '#E2E8F0',
           }}
           className="w-20 h-20 rounded-full items-center justify-center border-2 relative"
         >
@@ -62,19 +57,24 @@ export const BadgeDetailModal: React.FC<BadgeDetailModalProps> = ({
         {/* Badges Status Banner */}
         <View className="flex-row items-center gap-2">
           <View
-            style={{ backgroundColor: `${rarityColor}20` }}
-            className="px-3 py-1 rounded-full"
+            style={{
+              backgroundColor: isEarned ? tier.bgSoft : '#F1F5F9',
+              borderColor: isEarned ? tier.border : '#E2E8F0',
+            }}
+            className="px-3 py-1 rounded-full border"
           >
             <AppText
-              style={{ color: rarityColor }}
+              style={{ color: isEarned ? tier.color : '#94A3B8' }}
               className="text-xs font-bold uppercase tracking-wider"
             >
-              {badge.rarity}
+              {tier.label}
             </AppText>
           </View>
           <View
-            className={`px-3 py-1 rounded-full ${
-              isEarned ? 'bg-emerald-100' : 'bg-slate-100'
+            className={`px-3 py-1 rounded-full border ${
+              isEarned
+                ? 'bg-emerald-50 border-emerald-200'
+                : 'bg-slate-100 border-slate-200'
             }`}
           >
             <AppText

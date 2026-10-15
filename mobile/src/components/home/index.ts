@@ -5,3 +5,4 @@ export * from './RecentBadgesSection';
 export * from './TopicsGrid';
 export * from './NewsPreviewCard';
 export * from './PortfolioShortcutCard';
+export * from './MarketTickerBar';

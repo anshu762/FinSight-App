@@ -69,30 +69,33 @@ export default function LoginScreen() {
 
   return (
     <KeyboardScreen>
-      <ScreenHeader title="Welcome Back" showBack onBack={() => router.back()} />
+      <ScreenHeader title="" showBack onBack={() => router.back()} />
 
-      <View className="mb-6 mt-2">
-        <AppText variant="h2" className="text-2xl font-bold text-text">
-          Log in to FinSight
+      <View className="mb-6 mt-1 items-center">
+        <View className="w-14 h-14 rounded-2xl bg-primary items-center justify-center mb-3 shadow-md shadow-indigo-200">
+          <Ionicons name="trending-up" size={28} color="#FFFFFF" />
+        </View>
+        <AppText variant="title" className="text-2xl font-extrabold text-text text-center">
+          Welcome to FinSight
         </AppText>
-        <AppText variant="body" className="text-sm text-muted mt-1">
-          Continue your financial literacy and simulation journey.
+        <AppText variant="body" className="text-sm text-muted text-center mt-1 px-4">
+          Master financial literacy & practice with ₹10,00,000 virtual cash
         </AppText>
       </View>
 
       {Boolean(errorMessage) && (
-        <View className="flex-row items-center p-3.5 mb-5 bg-rose-50 border border-rose-200 rounded-xl gap-2.5">
+        <View className="flex-row items-center p-3.5 mb-4 bg-rose-50 border border-rose-200 rounded-2xl gap-2.5">
           <Ionicons name="alert-circle" size={20} color="#EF4444" />
-          <AppText variant="caption" className="text-danger flex-1 text-xs font-medium">
+          <AppText variant="caption" className="text-danger flex-1 text-xs font-semibold">
             {errorMessage}
           </AppText>
         </View>
       )}
 
-      <View className="mb-4">
+      <View className="bg-surface rounded-3xl p-5 border border-border shadow-sm mb-5">
         <Input
           label="Email Address"
-          placeholder="e.g. anubhav@example.com"
+          placeholder="name@example.com"
           value={email}
           onChangeText={(text) => {
             setEmail(text);
@@ -105,9 +108,7 @@ export default function LoginScreen() {
           onSubmitEditing={() => passwordRef.current?.focus()}
           error={fieldErrors.email}
         />
-      </View>
 
-      <View className="mb-6">
         <Input
           ref={passwordRef}
           label="Password"
@@ -121,16 +122,18 @@ export default function LoginScreen() {
           returnKeyType="done"
           onSubmitEditing={handleLogin}
           error={fieldErrors.password}
+          containerClassName="mb-2"
         />
       </View>
 
       <Button
         title="Log In"
         variant="primary"
+        size="lg"
         loading={loading}
         disabled={loading}
         onPress={handleLogin}
-        className="mb-4"
+        className="mb-4 shadow-sm"
       />
 
       <View className="flex-row justify-center items-center py-2">

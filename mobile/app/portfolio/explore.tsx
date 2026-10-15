@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TextInput, RefreshControl } from 'react-native';
+import { View, ScrollView, TextInput, RefreshControl, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen, ScreenHeader, Skeleton, ErrorState, EmptyState } from '../../src/components/ui';
@@ -26,17 +26,25 @@ export default function ExploreAssetsScreen() {
     <Screen paddingHorizontal={false}>
       <View className="px-5">
         <ScreenHeader title="Explore Instruments" />
-        <View className="flex-row items-center bg-surface border border-border rounded-input px-3 h-[46px] mb-3">
-          <Ionicons name="search" size={18} color="#94A3B8" />
+        <View
+          style={{ borderRadius: 9999 }}
+          className="flex-row items-center bg-slate-100/90 border border-slate-200/90 px-3.5 h-[46px] mb-3 shadow-xs"
+        >
+          <Ionicons name="search" size={18} color="#64748B" />
           <TextInput
             className="flex-1 ml-2 text-text text-sm py-0"
-            placeholder="Search by name or ticker..."
+            placeholder="Search stocks, ETFs, crypto..."
             placeholderTextColor="#94A3B8"
             value={searchQuery}
             onChangeText={setSearchQuery}
             returnKeyType="search"
-            clearButtonMode="while-editing"
+            autoCapitalize="none"
           />
+          {searchQuery.length > 0 && (
+            <Pressable onPress={() => setSearchQuery('')} hitSlop={8} className="p-1">
+              <Ionicons name="close-circle" size={18} color="#94A3B8" />
+            </Pressable>
+          )}
         </View>
       </View>
 

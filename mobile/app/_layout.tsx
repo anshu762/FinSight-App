@@ -11,7 +11,14 @@ import { useAuthStore } from '../src/stores/auth';
 import { apiClient } from '../src/api/client';
 import { queryClient } from '../src/api/query-client';
 import { type UserProfile } from '../src/api/types';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { Toast, OfflineBanner } from '../src/components/ui';
+
+// Silence Reanimated strict mode logger warnings
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 export { ErrorBoundary } from 'expo-router';
 

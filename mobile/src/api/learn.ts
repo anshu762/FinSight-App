@@ -14,8 +14,9 @@ export const getHomeDashboard = async (): Promise<HomeDashboard> => {
 };
 
 export const getTopics = async (): Promise<TopicSummary[]> => {
-  const res = await apiClient.get<unknown, { topics: TopicSummary[] }>('/api/topics');
-  return res.topics;
+  const res = await apiClient.get<unknown, TopicSummary[] | { topics: TopicSummary[] }>('/api/topics');
+  if (Array.isArray(res)) return res;
+  return (res as any)?.topics ?? [];
 };
 
 export const getTopicBySlug = async (slug: string): Promise<TopicDetailResponse> => {
@@ -23,8 +24,9 @@ export const getTopicBySlug = async (slug: string): Promise<TopicDetailResponse>
 };
 
 export const getBadges = async (): Promise<BadgeItem[]> => {
-  const res = await apiClient.get<unknown, { badges: BadgeItem[] }>('/api/badges');
-  return res.badges;
+  const res = await apiClient.get<unknown, BadgeItem[] | { badges: BadgeItem[] }>('/api/badges');
+  if (Array.isArray(res)) return res;
+  return (res as any)?.badges ?? [];
 };
 
 export const getLessonById = async (id: string): Promise<LessonDetail> => {

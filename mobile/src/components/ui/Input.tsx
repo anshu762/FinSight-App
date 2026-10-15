@@ -33,30 +33,39 @@ export const Input = forwardRef<TextInput, InputProps>(
       onBlur,
       ...rest
     },
-    ref
+    forwardedRef
   ) => {
+    const internalRef = React.useRef<TextInput>(null);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    // Merge refs
+    React.useImperativeHandle(forwardedRef, () => internalRef.current as TextInput);
+
+    const handleContainerPress = () => {
+      internalRef.current?.focus();
+    };
+
     const borderClass = error
-      ? 'border-danger'
+      ? 'border-danger bg-rose-50/20'
       : isFocused
-      ? 'border-primary'
-      : 'border-border';
+      ? 'border-primary bg-indigo-50/20'
+      : 'border-border bg-surface';
 
     return (
       <View className={`w-full mb-4 ${containerClassName}`}>
         {label ? (
-          <Text className="text-sm font-medium text-text mb-1.5">{label}</Text>
+          <Text className="text-sm font-semibold text-text mb-1.5">{label}</Text>
         ) : null}
 
-        <View
-          className={`flex-row items-center h-[52px] px-3.5 bg-surface border rounded-input ${borderClass}`}
+        <Pressable
+          onPress={handleContainerPress}
+          className={`flex-row items-center h-[52px] px-3.5 border rounded-2xl ${borderClass}`}
         >
           {leftIcon ? <View className="mr-2.5">{leftIcon}</View> : null}
 
           <TextInput
-            ref={ref}
+            ref={internalRef}
             className={`flex-1 text-base text-text py-0 h-full ${className}`}
             placeholderTextColor="#94A3B8"
             secureTextEntry={isPassword && !showPassword}
@@ -87,7 +96,7 @@ export const Input = forwardRef<TextInput, InputProps>(
           ) : rightIcon ? (
             <View className="ml-2">{rightIcon}</View>
           ) : null}
-        </View>
+        </Pressable>
 
         {error ? (
           <Text className="text-xs text-danger mt-1 font-medium">{error}</Text>

@@ -15,9 +15,24 @@ export const PortfolioActionsBar: React.FC<PortfolioActionsBarProps> = ({
   onReset,
 }) => {
   const actions = [
-    { label: 'Explore', icon: 'search-outline' as const, color: '#3B82F6', onPress: onExplore },
-    { label: 'History', icon: 'time-outline' as const, color: '#8B5CF6', onPress: onHistory },
-    { label: 'Reset ₹10L', icon: 'refresh-outline' as const, color: '#F59E0B', onPress: onReset },
+    {
+      label: 'Explore',
+      icon: 'search-outline' as const,
+      isPrimary: true,
+      onPress: onExplore,
+    },
+    {
+      label: 'History',
+      icon: 'time-outline' as const,
+      isPrimary: false,
+      onPress: onHistory,
+    },
+    {
+      label: 'Reset ₹10L',
+      icon: 'refresh-outline' as const,
+      isPrimary: false,
+      onPress: onReset,
+    },
   ];
 
   return (
@@ -26,14 +41,31 @@ export const PortfolioActionsBar: React.FC<PortfolioActionsBarProps> = ({
         <Pressable
           key={idx}
           onPress={act.onPress}
-          className="flex-1 bg-surface border border-border rounded-xl p-3 items-center justify-center active:opacity-75 shadow-xs"
+          className={`flex-1 rounded-2xl p-3 items-center justify-center active:scale-98 active:opacity-80 shadow-xs border ${
+            act.isPrimary
+              ? 'bg-indigo-50/70 border-indigo-200/80'
+              : 'bg-surface border-border'
+          }`}
           accessibilityRole="button"
           accessibilityLabel={act.label}
         >
-          <View className="w-8 h-8 rounded-full items-center justify-center mb-1 bg-slate-50">
-            <Ionicons name={act.icon} size={18} color={act.color} />
+          <View
+            className={`w-9 h-9 rounded-full items-center justify-center mb-1.5 ${
+              act.isPrimary ? 'bg-primary' : 'bg-slate-100'
+            }`}
+          >
+            <Ionicons
+              name={act.icon}
+              size={18}
+              color={act.isPrimary ? '#FFFFFF' : '#4F46E5'}
+            />
           </View>
-          <AppText variant="caption" className="font-bold text-text text-xs">
+          <AppText
+            variant="caption"
+            className={`font-bold text-xs ${
+              act.isPrimary ? 'text-primary' : 'text-text'
+            }`}
+          >
             {act.label}
           </AppText>
         </Pressable>

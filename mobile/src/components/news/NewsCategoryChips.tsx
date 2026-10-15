@@ -52,11 +52,12 @@ export const NewsCategoryChips: React.FC<NewsCategoryChipsProps> = ({
               key={cat.key}
               onPress={() => handlePress(cat.key)}
               hitSlop={6}
-              className={`flex-row items-center px-3.5 py-2 rounded-chip border min-h-[38px] active:opacity-80 ${
+              className={`flex-row items-center px-4 py-2 rounded-full border min-h-[38px] active:scale-95 shadow-xs ${
                 isSelected
-                  ? 'bg-primary border-primary'
-                  : 'bg-surface border-border'
+                  ? 'bg-primary border-primary shadow-sm'
+                  : 'bg-slate-100/90 border-slate-200/90'
               }`}
+              style={{ borderRadius: 9999 }}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
               accessibilityLabel={`Filter by ${cat.label}`}
@@ -65,7 +66,7 @@ export const NewsCategoryChips: React.FC<NewsCategoryChipsProps> = ({
               <AppText
                 variant="caption"
                 className={`font-semibold text-xs ${
-                  isSelected ? 'text-white' : 'text-slate-600'
+                  isSelected ? 'text-white' : 'text-slate-700'
                 }`}
               >
                 {cat.label}

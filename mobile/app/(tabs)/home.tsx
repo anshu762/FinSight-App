@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Screen, Skeleton, ErrorState } from '../../src/components/ui';
 import {
   HomeHeader,
+  MarketTickerBar,
   ContinueLearningCard,
   StatsRow,
   RecentBadgesSection,
@@ -99,7 +100,10 @@ export default function HomeScreen() {
           onAvatarPress={() => router.push('/profile')}
         />
 
-        {/* 2. Continue Learning Primary CTA */}
+        {/* 2. Live Market Ticker */}
+        <MarketTickerBar />
+
+        {/* 3. Continue Learning Primary CTA */}
         <ContinueLearningCard
           continueLesson={continueLesson}
           onPressLesson={handleLessonPress}

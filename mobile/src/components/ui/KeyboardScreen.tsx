@@ -31,15 +31,15 @@ export const KeyboardScreen: React.FC<KeyboardScreenProps> = ({
   return (
     <SafeAreaView edges={edges} className="flex-1 bg-background" style={style}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 12 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 16 : 0}
       >
         <ScrollView
           className={`flex-1 ${className}`}
-          contentContainerClassName={`flex-grow ${horizontalPadding} pb-10 ${contentContainerClassName}`}
+          contentContainerClassName={`flex-grow ${horizontalPadding} pb-16 ${contentContainerClassName}`}
           keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
+          keyboardDismissMode="interactive"
           showsVerticalScrollIndicator={false}
           {...rest}
         >
